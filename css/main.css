@@ -1106,6 +1106,43 @@ ul {
   100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 
+/* Trust Logos Carousel */
+.logos-slider {
+  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+}
+
+.logos-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-logos 35s linear infinite;
+}
+
+.logos-set {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding-right: 60px; /* Space before the next set starts */
+}
+
+.trust-logo {
+  height: 50px;
+  width: auto;
+  filter: grayscale(100%) opacity(0.5);
+  transition: all 0.3s ease;
+  object-fit: contain;
+}
+
+.trust-logo:hover {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.05);
+}
+
+@keyframes scroll-logos {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   :root {
