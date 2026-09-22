@@ -16,6 +16,9 @@
 
     <!-- Style -->
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/site-shell.css">
+    <link rel="stylesheet" href="css/pages.css">
     <link rel="icon" type="image/png" href="img/logo.png">
 
     <!-- Fonts -->
@@ -28,17 +31,22 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <a href="index.html" class="logo">
-                <img src="img/logo.png" alt="Logo de DM Marketing - servicios de marketing digital en Uruguay" style="height: 120px; vertical-align: middle;">
+            <a href="index.html" class="logo site-brand" aria-label="DM Marketing, inicio">
+                <img src="img/logo.png" alt="" width="68" height="68">
+                <span class="brand-copy">
+                    <strong>DM Marketing</strong>
+                    <small>Estrategia que convierte</small>
+                </span>
             </a>
-            <nav class="nav">
+            <nav class="nav" aria-label="Navegación principal">
                 <ul class="nav-links">
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="servicios.html" class="active">Servicios</a></li>
+                    <li><a href="trabajos.html">Trabajos</a></li>
                     <li><a href="precios.html">Precios</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
+                    <li><a href="contacto.html" class="nav-cta">Diagnóstico gratuito</a></li>
                 </ul>
-                <button class="mobile-menu-btn" aria-label="Abrir menú">
+                <button class="mobile-menu-btn" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false">
                     <span></span><span></span><span></span>
                 </button>
             </nav>
@@ -46,14 +54,15 @@
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay">
+    <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true">
         <ul class="mobile-nav-links">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="trabajos.html">Trabajos</a></li>
             <li><a href="precios.html">Precios</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="contacto.html" class="nav-cta">Agendar diagnóstico gratuito</a></li>
         </ul>
-        <button class="close-menu-btn">&times;</button>
+        <button class="close-menu-btn" aria-label="Cerrar menú">&times;</button>
     </div>
 
     <!-- Page Content -->
@@ -64,7 +73,7 @@
                 <h1 class="reveal-text" style="font-size: 3rem; margin-bottom: 20px; line-height: 1.1; letter-spacing: -1px; text-transform: uppercase;">Servicios de <span style="color: var(--color-accent);">marketing digital</span> para emprendedores y pequeñas empresas</h1>
                 <p class="hero-subtitle reveal-text delay-100" style="font-size: 1.3rem; color: #a0aec0; max-width: 800px; margin: 0 auto 30px;">Como agencia de marketing en Uruguay, ayudamos a emprendedores y pequeñas empresas a definir qué acciones conviene priorizar: redes sociales, contenido, Meta Ads, SEO, sitio web, fotografía, drone, WhatsApp o consultoría estratégica.</p>
                 <div class="reveal-text delay-200" style="margin-top: 30px;">
-                    <a href="contacto.html" class="btn btn-primary" style="padding: 15px 30px; font-size: 1.2rem; box-shadow: 0 10px 30px rgba(255,107,0,0.3);">👉 Agendar diagnóstico</a>
+                    <a href="contacto.html" class="btn btn-primary" style="padding: 15px 30px; font-size: 1.2rem; box-shadow: 0 10px 30px rgba(255,107,0,0.3);">Agendar diagnóstico gratuito</a>
                 </div>
             </div>
         </section>
@@ -353,7 +362,7 @@
             <div class="container">
                 <h2 style="font-size: 2.8rem; color: white; margin-bottom: 20px;">Veamos qué necesita realmente tu negocio</h2>
                 <p style="font-size: 1.2rem; color: #a0aec0; max-width: 700px; margin: 0 auto 40px; line-height: 1.6;">Agendá un diagnóstico y revisemos dónde puede estar la mayor oportunidad: redes sociales, anuncios, Google, sitio web, SEO, fotografía, drone, WhatsApp, seguimiento o estrategia.</p>
-                <a href="contacto.html" class="btn btn-primary pulseGlow" style="padding: 18px 40px; font-size: 1.2rem; display: inline-block;">👉 Agendar diagnóstico</a>
+                <a href="contacto.html" class="btn btn-primary pulseGlow" style="padding: 18px 40px; font-size: 1.2rem; display: inline-block;">Agendar diagnóstico gratuito</a>
                 <div style="margin-top: 30px;">
                     <a href="precios.html" style="color: var(--color-accent); text-decoration: underline; font-size: 1.05rem;">O mirá nuestros precios referenciales primero</a>
                 </div>
@@ -367,57 +376,34 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <img src="img/logo.png" alt="DM Marketing Logo"
-                        style="height: 100px; background: white; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                        class="footer-logo" width="92" height="92">
                     <p style="color: #ccc;">Marketing que se mide en la caja.</p>
                 </div>
-                <div class="footer-contact">
-                    <h4 style="color: white; margin-bottom: 20px;">Contacto</h4>
-                    <ul class="contact-details">
-                        <li>📧 contacto@dmmarketing.com</li>
-                        <li>📱 +598 99 123 456</li>
-                        <li>📍 Montevideo, Uruguay</li>
+                <div class="footer-nav">
+                    <h4>Navegación</h4>
+                    <ul class="footer-links">
+                        <li><a href="servicios.html">Servicios</a></li>
+                        <li><a href="trabajos.html">Trabajos</a></li>
+                        <li><a href="precios.html">Precios</a></li>
+                        <li><a href="contacto.html">Diagnóstico gratuito</a></li>
                     </ul>
+                </div>
+                <div class="footer-status">
+                    <h4>Agenda</h4>
+                    <span class="status-pill">Temporalmente en pausa</span>
+                    <p>Los canales de contacto se publicarán cuando estén definidos.</p>
+                    <p>Uruguay</p>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 DM Marketing. Todos los derechos reservados.</p>
+                <nav class="footer-legal-links" aria-label="Información legal">
+                    <a href="privacidad.html">Privacidad</a>
+                    <a href="cookies.html">Cookies</a>
+                </nav>
             </div>
         </div>
     </footer>
-
-    <!-- Floating WhatsApp Widget -->
-    <div class="whatsapp-widget" id="waWidget">
-        <div class="whatsapp-chat-box">
-            <div class="wa-header">
-                <div class="wa-avatar"><img src="img/logo.png" alt="DM"></div>
-                <div class="wa-info">
-                    <strong>DM Marketing</strong>
-                    <span>En línea</span>
-                </div>
-            </div>
-            <div class="wa-body">
-                <div class="wa-message">
-                    <p>¡Hola! 👋<br>¿Te ayudamos a estructurar tu sistema de ventas?</p>
-                    <span class="wa-time">Ahora</span>
-                </div>
-            </div>
-            <div class="wa-footer">
-                <input type="text" id="waMessageInput" placeholder="Escribe un mensaje..." class="wa-input"
-                    autocomplete="off">
-                <button aria-label="Enviar" class="wa-send-btn" id="waSendBtn">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <button class="wa-float-btn" id="waToggle" aria-label="Abrir chat de WhatsApp">
-            <svg viewBox="0 0 32 32" width="35" height="35" fill="white">
-                <path
-                    d="M16 1.422c-8.026 0-14.531 6.505-14.531 14.531 0 2.76.771 5.354 2.125 7.552L1.5 31.422l8.115-2.073c2.094 1.25 4.542 1.969 7.156 1.969 8.026 0 14.531-6.505 14.531-14.531S23.797 1.422 16 1.422zm7.646 20.375c-.328.922-1.906 1.771-2.651 1.849-.703.078-1.547.167-4.526-1.078-3.599-1.51-5.911-5.182-6.089-5.417-.182-.24-1.458-1.958-1.458-3.734 0-1.781.927-2.656 1.26-3.031.328-.365.719-.458.958-.458s.479-.01.688-.01c.208 0 .49.036.755.703.281.714.958 2.349 1.042 2.516.083.167.141.365.042.563-.104.208-.161.328-.318.521-.161.188-.328.375-.469.516-.161.161-.328.344-.141.667.188.313.823 1.354 1.771 2.198 1.224 1.083 2.229 1.417 2.547 1.563.318.151.521.125.714-.104.22-.26.896-1.042 1.135-1.406.24-.365.469-.302.771-.188.318.115 1.958.922 2.292 1.089.333.167.552.25.635.39.083.141.083.823-.239 1.745z" />
-            </svg>
-        </button>
-    </div>
 
     <script src="js/app.js"></script>
 </body>

@@ -9,7 +9,6 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dmmarketing.com/">
     <meta property="og:title" content="DM Marketing | Agencia de Marketing en Uruguay para Emprendedores">
     <meta property="og:description"
         content="DM Marketing es una agencia de marketing en Uruguay para emprendedores y pequeñas empresas. Estrategia, contenido, Meta Ads, sitios web, SEO, fotografía, drone y captación de clientes.">
@@ -17,7 +16,6 @@
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://dmmarketing.com/">
     <meta property="twitter:title" content="DM Marketing | Agencia de Marketing en Uruguay para Emprendedores">
     <meta property="twitter:description" content="DM Marketing es una agencia de marketing en Uruguay para emprendedores y pequeñas empresas. Estrategia, contenido, Meta Ads, sitios web, SEO, fotografía, drone y captación de clientes.">
     <meta property="twitter:image" content="img/logo.png">
@@ -33,6 +31,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/site-shell.css">
+    <link rel="stylesheet" href="css/pages.css">
 </head>
 
 <body>
@@ -40,18 +40,23 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <a href="#" class="logo">
-                <img src="img/logo.png" alt="Logo de DM Marketing - Marketing digital en Uruguay" style="height: 120px; vertical-align: middle;">
+            <a href="index.html" class="logo site-brand" aria-label="DM Marketing, inicio">
+                <img src="img/logo.png" alt="" width="68" height="68">
+                <span class="brand-copy">
+                    <strong>DM Marketing</strong>
+                    <small>Estrategia que convierte</small>
+                </span>
             </a>
-            <nav class="nav">
+            <nav class="nav" aria-label="Navegación principal">
                 <ul class="nav-links">
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="trabajos.html">Trabajos</a></li>
                     <li><a href="precios.html">Precios</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
+                    <li><a href="contacto.html" class="nav-cta">Diagnóstico gratuito</a></li>
                 </ul>
                 <!-- Mobile Menu Button -->
-                <button class="mobile-menu-btn" aria-label="Abrir menú">
+                <button class="mobile-menu-btn" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -61,12 +66,13 @@
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay">
+    <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true">
         <ul class="mobile-nav-links">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="trabajos.html">Trabajos</a></li>
             <li><a href="precios.html">Precios</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="contacto.html" class="nav-cta">Agendar diagnóstico gratuito</a></li>
         </ul>
         <button class="close-menu-btn" aria-label="Cerrar menú">&times;</button>
     </div>
@@ -74,16 +80,20 @@
     <!-- Hero Section -->
     <section id="inicio" class="hero">
         <div class="container">
-            <h1 class="reveal-text" style="font-size: 3.5rem; line-height: 1.1;">Marketing que se mide en la caja, no en el feed.</h1>
+            <h1 class="reveal-text">Marketing que se mide en la caja, no en el feed.</h1>
             
-            <div class="futuristic-wrapper reveal-text delay-100" style="font-size: 2rem; font-weight: 900; margin-top: 25px; color: white;">
-                Foco en <span class="futuristic-text" style="color: var(--color-accent);">estrategia, captación y medición</span>
+            <div class="futuristic-wrapper reveal-text delay-100">
+                <span class="futuristic-label">Foco en</span>
+                <span class="futuristic-slot" aria-hidden="true">
+                    <span class="futuristic-text">captación de clientes</span>
+                </span>
+                <span class="sr-only">captación de clientes, estrategia comercial, contenido que convierte y medición de resultados</span>
             </div>
 
             <p class="hero-subtitle reveal-text delay-200" style="font-size: 1.2rem; margin-top: 20px; opacity: 0.9;">DM Marketing es una agencia de marketing en Uruguay para emprendedores y pequeñas empresas que necesitan ordenar su estrategia, captar clientes y vender mejor. Analizamos tu negocio para definir si conviene trabajar redes, anuncios, Google, WhatsApp, sitio web, SEO, fotografía, drone o seguimiento comercial.</p>
 
             <div class="hero-actions reveal-text delay-300" style="margin-top: 40px;">
-                <a href="contacto.html" class="btn btn-primary" style="font-size: 1.3rem; padding: 18px 36px;">👉 Agendar diagnóstico</a>
+                <a href="contacto.html" class="btn btn-primary" style="font-size: 1.3rem; padding: 18px 36px;">Agendar diagnóstico gratuito</a>
             </div>
         </div>
     </section>
@@ -206,7 +216,7 @@
             </div>
             <div class="method-cta" style="text-align: center; margin-top: 60px;">
                 <a href="contacto.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 15px 40px;">👉
-                    Agendar diagnóstico</a>
+                    Agendar diagnóstico gratuito</a>
             </div>
         </div>
     </section>
@@ -244,33 +254,28 @@
         </div>
     </section>
 
-    <!-- Trust Logos Section (Final push of confidence) -->
-    <section class="trust-section" style="padding: 40px 0; background: #050505; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); overflow: hidden;">
-        <div class="container" style="text-align: center;">
-            <p style="color: #718096; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 25px; font-weight: 700;">Marcas y empresas que ya confiaron en nosotros</p>
-        </div>
-        <div class="logos-slider" style="position: relative; width: 100%; display: flex; overflow: hidden; padding: 10px 0;">
-            <div class="logos-track">
-                <!-- Original set -->
-                <div class="logos-set">
-                    <img src="img/liga-interbalnearia (2).png" alt="Club de Rulos - Cliente DM Marketing" class="trust-logo">
-                    <img src="img/liga-interbalnearia (1).png" alt="Liga Interbalnearia - Cliente Agencia de Marketing" class="trust-logo">
-                    <img src="img/EL Parque.JPG" alt="El Parque - Cliente Agencia de Marketing Uruguay" class="trust-logo">
-                    <img src="img/Liceo aleph.jpg" alt="Aleph Liceo Cooperativa - Cliente Agencia de Marketing" class="trust-logo">
-                    <img src="img/-1pro.png" alt="Ginoparque - Caso de éxito Agencia de Marketing" class="trust-logo">
-                    <img src="img/Juivipo publico.png" alt="Juicio Público - Cliente DM Marketing" class="trust-logo">
-                    <img src="img/Amazonas.jpg" alt="Cliente Agencia de Marketing" class="trust-logo">
-                </div>
-                <!-- Duplicate set for infinite scroll loop -->
-                <div class="logos-set">
-                    <img src="img/liga-interbalnearia (2).png" alt="Club de Rulos - Cliente DM Marketing" class="trust-logo">
-                    <img src="img/liga-interbalnearia (1).png" alt="Liga Interbalnearia - Cliente Agencia de Marketing" class="trust-logo">
-                    <img src="img/EL Parque.JPG" alt="El Parque - Cliente Agencia de Marketing Uruguay" class="trust-logo">
-                    <img src="img/Liceo aleph.jpg" alt="Aleph Liceo Cooperativa - Cliente Agencia de Marketing" class="trust-logo">
-                    <img src="img/-1pro.png" alt="Ginoparque - Caso de éxito Agencia de Marketing" class="trust-logo">
-                    <img src="img/Juivipo publico.png" alt="Juicio Público - Cliente DM Marketing" class="trust-logo">
-                    <img src="img/Amazonas.jpg" alt="Cliente Agencia de Marketing" class="trust-logo">
-                </div>
+    <!-- Compact proof of work -->
+    <section class="work-preview reveal-section" aria-labelledby="work-preview-title">
+        <div class="container work-preview-grid">
+            <div class="work-preview-copy">
+                <span class="work-eyebrow">Trabajo aplicado</span>
+                <h2 id="work-preview-title">Estrategia que termina en algo concreto.</h2>
+                <p>Una muestra breve de cómo conectamos identidad, contenido, producto y operación. El trabajo existe para respaldar la propuesta, no para distraerte de ella.</p>
+                <a class="work-preview-link" href="trabajos.html">Ver trabajos seleccionados <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="work-preview-list" aria-label="Áreas demostradas en nuestros trabajos">
+                <article>
+                    <span>01</span>
+                    <div><strong>Club de Rulos</strong><small>Sitio, contenido y conversión</small></div>
+                </article>
+                <article>
+                    <span>02</span>
+                    <div><strong>Agenda Club de Rulos</strong><small>Reservas, CRM y automatización</small></div>
+                </article>
+                <article>
+                    <span>03</span>
+                    <div><strong>Productos digitales</strong><small>La Quinta Pata · Juicio Público · Penca El Parque</small></div>
+                </article>
             </div>
         </div>
     </section>
@@ -283,48 +288,23 @@
             <p style="font-size: 1.4rem; margin-bottom: 40px; opacity: 0.9;">Ordenemos tus acciones para enfocarnos en lo que más puede ayudarte a captar clientes.</p>
             <a href="contacto.html" class="btn btn-primary"
                 style="font-size: 1.5rem; padding: 22px 50px; background: white; color: var(--color-primary); border: none;">👉
-                Agendar diagnóstico</a>
+                Agendar diagnóstico gratuito</a>
         </div>
     </section>
 
-    <!-- Final Form Section -->
+    <!-- Diagnosis CTA while booking channels are being prepared -->
     <section id="contacto" class="contact-section">
         <div class="container">
             <div class="section-title">
-                <h2>Veamos cómo hacerte vender más</h2>
-                <p>Completa el formulario y tracemos el plan de captación real.</p>
+                <h2>Agendá tu diagnóstico gratuito</h2>
+                <p>Primero entendemos el negocio. Después hablamos de herramientas.</p>
             </div>
             <div class="contact-wrapper">
                 <div class="contact-form-container">
-                    <form id="contactForm"
-                        action="https://script.google.com/macros/s/AKfycbwyoFBT6R4us6Q2D4I8PqG-y0-UWpeiyWAkSDGw9aTsKMl-ValSMHvvPqcwM2XTxW9c/exec"
-                        method="POST">
-                        <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono">WhatsApp / Teléfono</label>
-                            <input type="tel" id="telefono" name="telefono" required placeholder="Tu número">
-                        </div>
-                        <div class="form-group">
-                            <label for="plan">Objetivo</label>
-                            <select id="plan" name="plan">
-                                <option value="Consulta General">Consulta General</option>
-                                <option value="Sistema de Captación">Sistema de Captación</option>
-                                <option value="Contenido y Autoridad">Contenido y Autoridad</option>
-                                <option value="Consultoría Estratégica">Consultoría Estratégica</option>
-                                <option value="No sé qué necesito">No sé qué necesito</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="mensaje">Mensaje (Opcional)</label>
-                            <textarea id="mensaje" name="mensaje" rows="3"
-                                placeholder="¿Algo más que nos quieras contar sobre tu negocio?"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary submit-btn">Agendar diagnóstico</button>
-                        <p id="form-message" style="display:none; margin-top: 10px; font-weight: bold;"></p>
-                    </form>
+                    <span class="status-pill">Agenda temporalmente en pausa</span>
+                    <h3 style="font-size: 1.6rem; margin: 12px 0; color: var(--color-primary);">Todavía no te vamos a pedir datos</h3>
+                    <p style="margin-bottom: 24px; color: var(--color-text-light);">Estamos definiendo el canal de agenda, el número y el correo corporativo. Preferimos una pausa clara antes que un formulario que mande tus datos a ningún lado.</p>
+                    <a href="contacto.html" class="btn btn-primary">Ver cómo será el diagnóstico</a>
                 </div>
             </div>
         </div>
@@ -347,61 +327,38 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <img src="img/logo.png" alt="Logo de DM Marketing - Marketing digital en Uruguay"
-                        style="height: 100px; background: white; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                        class="footer-logo" width="92" height="92">
                     <p style="color: #ccc;">Marketing que se mide en la caja.</p>
                     <div class="measurement-block"
                         style="margin-top: 20px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 0.85rem; display: inline-block;">
                         <strong>Medimos:</strong> leads, CPL, tasa de cierre, retorno.
                     </div>
                 </div>
-                <div class="footer-contact">
-                    <h4 style="color: white; margin-bottom: 20px;">Contacto</h4>
-                    <ul class="contact-details">
-                        <li>📧 contacto@dmmarketing.com</li>
-                        <li>📱 +598 99 123 456</li>
-                        <li>📍 Montevideo, Uruguay</li>
+                <div class="footer-nav">
+                    <h4>Navegación</h4>
+                    <ul class="footer-links">
+                        <li><a href="servicios.html">Servicios</a></li>
+                        <li><a href="trabajos.html">Trabajos</a></li>
+                        <li><a href="precios.html">Precios</a></li>
+                        <li><a href="contacto.html">Diagnóstico gratuito</a></li>
                     </ul>
+                </div>
+                <div class="footer-status">
+                    <h4>Agenda</h4>
+                    <span class="status-pill">Temporalmente en pausa</span>
+                    <p>Los canales de contacto se publicarán cuando estén definidos.</p>
+                    <p>Uruguay</p>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 DM Marketing. Todos los derechos reservados.</p>
+                <nav class="footer-legal-links" aria-label="Información legal">
+                    <a href="privacidad.html">Privacidad</a>
+                    <a href="cookies.html">Cookies</a>
+                </nav>
             </div>
         </div>
     </footer>
-
-    <!-- Floating WhatsApp Widget -->
-    <div class="whatsapp-widget" id="waWidget">
-        <div class="whatsapp-chat-box">
-            <div class="wa-header">
-                <div class="wa-avatar"><img src="img/logo.png" alt="DM"></div>
-                <div class="wa-info">
-                    <strong>DM Marketing</strong>
-                    <span>En línea</span>
-                </div>
-            </div>
-            <div class="wa-body">
-                <div class="wa-message">
-                    <p>¡Hola! 👋<br>¿Te ayudamos a estructurar tu sistema de ventas?</p>
-                    <span class="wa-time">Ahora</span>
-                </div>
-            </div>
-            <div class="wa-footer">
-                <input type="text" id="waMessageInput" placeholder="Escribe un mensaje..." class="wa-input"
-                    autocomplete="off">
-                <button aria-label="Enviar" class="wa-send-btn" id="waSendBtn">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <button class="wa-float-btn" id="waToggle" aria-label="Abrir chat de WhatsApp">
-            <svg viewBox="0 0 32 32" width="35" height="35" fill="white">
-                <path
-                    d="M16 1.422c-8.026 0-14.531 6.505-14.531 14.531 0 2.76.771 5.354 2.125 7.552L1.5 31.422l8.115-2.073c2.094 1.25 4.542 1.969 7.156 1.969 8.026 0 14.531-6.505 14.531-14.531S23.797 1.422 16 1.422zm7.646 20.375c-.328.922-1.906 1.771-2.651 1.849-.703.078-1.547.167-4.526-1.078-3.599-1.51-5.911-5.182-6.089-5.417-.182-.24-1.458-1.958-1.458-3.734 0-1.781.927-2.656 1.26-3.031.328-.365.719-.458.958-.458s.479-.01.688-.01c.208 0 .49.036.755.703.281.714.958 2.349 1.042 2.516.083.167.141.365.042.563-.104.208-.161.328-.318.521-.161.188-.328.375-.469.516-.161.161-.328.344-.141.667.188.313.823 1.354 1.771 2.198 1.224 1.083 2.229 1.417 2.547 1.563.318.151.521.125.714-.104.22-.26.896-1.042 1.135-1.406.24-.365.469-.302.771-.188.318.115 1.958.922 2.292 1.089.333.167.552.25.635.39.083.141.083.823-.239 1.745z" />
-            </svg>
-        </button>
-    </div>
 
     <!-- Script -->
     <script src="js/app.js"></script>
