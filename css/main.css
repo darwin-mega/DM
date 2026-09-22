@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin.woff2') format('woff2');
+}
+
 :root {
   /* Brand Colors */
   --color-primary: #0F2E50;
@@ -96,7 +104,7 @@ ul {
 
 .btn-primary {
   background-color: var(--color-accent);
-  color: var(--color-white);
+  color: #051424;
 }
 
 .btn-primary:hover {
@@ -131,10 +139,10 @@ ul {
 .hero::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -50px;
   left: -50%;
   width: 200%;
-  height: 70%;
+  height: calc(70% + 50px);
   background-image: 
     linear-gradient(rgba(255, 107, 0, 0.15) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 107, 0, 0.15) 1px, transparent 1px);
@@ -142,6 +150,7 @@ ul {
   transform: perspective(600px) rotateX(75deg);
   transform-origin: bottom center;
   animation: synthGrid 3s linear infinite;
+  will-change: transform;
   z-index: 0;
   pointer-events: none;
   mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
@@ -149,8 +158,8 @@ ul {
 }
 
 @keyframes synthGrid {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 50px; }
+  0% { transform: perspective(600px) rotateX(75deg) translateY(0); }
+  100% { transform: perspective(600px) rotateX(75deg) translateY(50px); }
 }
 
 .hero .container {
@@ -814,6 +823,11 @@ ul {
     linear-gradient(150deg, #061522 0%, #0b2238 65%, #071725 100%);
 }
 
+.contact-form-container .status-pill {
+  color: #7a2e00;
+  border-color: rgba(122, 46, 0, 0.32);
+}
+
 .work-preview-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
@@ -1370,7 +1384,7 @@ a.work-card-link:hover .work-visual--agenda img {
 
 .cookie-consent__button {
   padding: 0.72rem 0.9rem;
-  color: #fff;
+  color: #051424;
   background: var(--color-accent);
   border: 1px solid var(--color-accent);
   border-radius: 10px;

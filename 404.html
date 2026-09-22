@@ -21,9 +21,7 @@
     <meta name="description" content="La página que buscabas no está disponible. Volvé al inicio o explorá los servicios de DM Marketing.">
     <meta name="robots" content="noindex, follow">
     <link rel="icon" type="image/png" href="img/logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/site-shell.css">
@@ -38,7 +36,7 @@
     <header class="header">
         <div class="container">
             <a href="index.html" class="logo site-brand" aria-label="DM Marketing, inicio">
-                <img src="img/logo.png" alt="" width="68" height="68">
+                <img src="img/logo-display.png" alt="" width="68" height="68">
                 <span class="brand-copy">
                     <strong>DM Marketing</strong>
                     <small>Estrategia que convierte</small>
@@ -59,7 +57,7 @@
         </div>
     </header>
 
-    <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true" inert>
         <ul class="mobile-nav-links">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="servicios.html">Servicios</a></li>

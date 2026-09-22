@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         mobileMenuOverlay.classList.toggle('active', shouldOpen);
         mobileMenuOverlay.setAttribute('aria-hidden', String(!shouldOpen));
+        mobileMenuOverlay.inert = !shouldOpen;
         mobileMenuBtn?.setAttribute('aria-expanded', String(shouldOpen));
         document.body.style.overflow = shouldOpen ? 'hidden' : '';
     }

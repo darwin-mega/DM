@@ -318,7 +318,7 @@ body {
     grid-column: auto;
   }
 
-  .footer h4::after {
+  .footer h2::after {
     left: 0;
     transform: none;
   }

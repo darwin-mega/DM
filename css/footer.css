@@ -41,7 +41,7 @@
     line-height: 1.6;
 }
 
-.footer h4 {
+.footer h2 {
     color: white;
     font-size: 1.2rem;
     margin-bottom: 20px;
@@ -50,7 +50,7 @@
     font-weight: 700;
 }
 
-.footer h4::after {
+.footer h2::after {
     content: '';
     position: absolute;
     bottom: -8px;
@@ -84,7 +84,7 @@
     text-align: center;
     padding-top: 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    color: #666;
+    color: #a0a0a0;
     font-size: 0.9rem;
     position: relative;
     z-index: 1;
@@ -101,7 +101,7 @@
         padding-right: 0;
     }
 
-    .footer h4::after {
+    .footer h2::after {
         left: 50%;
         transform: translateX(-50%);
     }

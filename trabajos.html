@@ -24,9 +24,7 @@
     <meta property="og:description" content="Sitios, sistemas y productos digitales desarrollados con una mirada coherente de marca, experiencia y operación.">
     <meta property="og:image" content="img/logo.png">
     <link rel="icon" type="image/png" href="img/logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/site-shell.css">
@@ -41,7 +39,7 @@
     <header class="header">
         <div class="container">
             <a href="index.html" class="logo site-brand" aria-label="DM Marketing, inicio">
-                <img src="img/logo.png" alt="" width="68" height="68">
+                <img src="img/logo-display.png" alt="" width="68" height="68">
                 <span class="brand-copy">
                     <strong>DM Marketing</strong>
                     <small>Estrategia que convierte</small>
@@ -62,7 +60,7 @@
         </div>
     </header>
 
-    <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-overlay" id="mobile-menu" aria-hidden="true" inert>
         <ul class="mobile-nav-links">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="servicios.html">Servicios</a></li>
@@ -192,11 +190,11 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <img src="img/logo.png" alt="Logo de DM Marketing" class="footer-logo" width="92" height="92">
+                    <img src="img/logo-display.png" alt="Logo de DM Marketing" class="footer-logo" width="92" height="92">
                     <p style="color: #ccc;">Marketing que se mide en la caja.</p>
                 </div>
                 <div class="footer-nav">
-                    <h4>Navegación</h4>
+                    <h2>Navegación</h2>
                     <ul class="footer-links">
                         <li><a href="servicios.html">Servicios</a></li>
                         <li><a href="trabajos.html">Trabajos</a></li>
@@ -205,7 +203,7 @@
                     </ul>
                 </div>
                 <div class="footer-status">
-                    <h4>Agenda</h4>
+                    <h2>Agenda</h2>
                     <span class="status-pill">Temporalmente en pausa</span>
                     <p>Los canales de contacto se publicarán cuando estén definidos.</p>
                     <p>Uruguay</p>
