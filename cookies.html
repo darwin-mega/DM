@@ -2,6 +2,19 @@
 <html lang="es">
 
 <head>
+    <!-- Google Tag Manager -->
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+    var dmConsent;try{dmConsent=localStorage.getItem('dm_cookie_consent');}catch(e){dmConsent=null;}
+    gtag('consent','default',{
+        analytics_storage:dmConsent==='granted'?'granted':'denied',
+        ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500
+    });
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KLM3M38X');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Política de cookies | DM Marketing</title>
@@ -18,6 +31,10 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLM3M38X"
+    height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <header class="header">
         <div class="container">
             <a href="index.html" class="logo site-brand" aria-label="DM Marketing, inicio">
@@ -59,8 +76,8 @@
                 <div class="legal-hero">
                     <span class="page-eyebrow">Transparencia digital</span>
                     <h1 class="page-title">Política de cookies</h1>
-                    <p class="page-lead">Sin letra chica creativa: te contamos qué usa hoy el sitio y qué deberá cambiar cuando activemos medición.</p>
-                    <p class="pause-note">Última actualización: 30 de agosto de 2026.</p>
+                    <p class="page-lead">Sin letra chica creativa: te contamos qué usa el sitio y cómo podés decidir sobre la medición.</p>
+                    <p class="pause-note">Última actualización: 22 de septiembre de 2026.</p>
                 </div>
 
                 <div class="legal-layout">
@@ -69,7 +86,7 @@
                         <a href="#que-son">Qué son las cookies</a>
                         <a href="#uso-actual">Uso actual</a>
                         <a href="#terceros">Recursos de terceros</a>
-                        <a href="#analytics">Analytics más adelante</a>
+                        <a href="#analytics">Analytics y medición</a>
                         <a href="#control">Cómo controlarlas</a>
                         <a href="#cambios">Cambios en la política</a>
                     </aside>
@@ -82,29 +99,30 @@
 
                         <section class="legal-section" id="uso-actual">
                             <h2>2. Qué utiliza hoy este sitio</h2>
-                            <p>En esta versión, DM Marketing no tiene configuradas cookies propias de analítica, publicidad ni personalización. Google Analytics todavía no está instalado y los formularios y canales de contacto están temporalmente desactivados.</p>
-                            <div class="legal-callout">Por eso no mostramos un banner que finja darte opciones sobre herramientas que hoy no están activas. Cuando cambie la tecnología, cambiará también esta política y el mecanismo de consentimiento que corresponda.</div>
+                            <p>El sitio utiliza Google Tag Manager para gestionar la medición. El almacenamiento de Analytics se mantiene denegado por defecto y solo se habilita si elegís “Aceptar medición”. No habilitamos almacenamiento publicitario.</p>
+                            <div class="legal-callout">Rechazar Analytics no limita el acceso al sitio ni a sus contenidos. La elección queda guardada en tu navegador para no preguntarte en cada visita.</div>
                         </section>
 
                         <section class="legal-section" id="terceros">
                             <h2>3. Recursos de terceros</h2>
-                            <p>El sitio puede solicitar recursos externos necesarios para mostrar su diseño, como las tipografías servidas por Google Fonts. Esos proveedores pueden recibir datos técnicos de conexión —por ejemplo, dirección IP, navegador o fecha de la solicitud— de acuerdo con sus propias políticas.</p>
+                            <p>El sitio utiliza infraestructura de Vercel, tipografías servidas por Google Fonts y Google Tag Manager. Estos proveedores pueden recibir datos técnicos de conexión —por ejemplo, dirección IP, navegador o fecha de la solicitud— de acuerdo con sus propias políticas.</p>
                         </section>
 
                         <section class="legal-section" id="analytics">
                             <h2>4. Medición y Analytics</h2>
-                            <p>Está previsto incorporar una herramienta de analítica para medir visitas, páginas consultadas y conversiones. Antes de activarla, se deberá:</p>
+                            <p>La medición se utiliza para conocer visitas, páginas consultadas y conversiones, y así mejorar el contenido y la experiencia. La implementación:</p>
                             <ul>
-                                <li>identificar la herramienta y las cookies que utiliza;</li>
-                                <li>actualizar esta política con finalidad, duración y proveedor;</li>
-                                <li>incorporar un sistema para aceptar o rechazar cookies no esenciales cuando corresponda;</li>
-                                <li>evitar que la medición no esencial se cargue antes de la elección del visitante.</li>
+                                <li>permite aceptar o rechazar Analytics;</li>
+                                <li>mantiene denegado el almacenamiento publicitario;</li>
+                                <li>guarda la preferencia localmente en el navegador;</li>
+                                <li>depende de que las etiquetas publicadas dentro de Tag Manager respeten el modo de consentimiento.</li>
                             </ul>
                         </section>
 
                         <section class="legal-section" id="control">
                             <h2>5. Cómo controlar las cookies</h2>
-                            <p>Podés revisar, bloquear o eliminar cookies desde la configuración de tu navegador. Si en el futuro activamos un panel de preferencias, también podrás modificar tu elección desde el propio sitio. Bloquear cookies técnicas podría afectar algunas funciones.</p>
+                            <p>Podés revisar, bloquear o eliminar cookies desde la configuración de tu navegador. También podés volver a abrir el panel para cambiar tu elección.</p>
+                            <button type="button" id="cookie-preferences-button" class="btn btn-secondary">Cambiar preferencias de medición</button>
                         </section>
 
                         <section class="legal-section" id="cambios">

@@ -1,4 +1,76 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Cookie consent for analytics. Advertising storage remains disabled.
+    const consentStorageKey = 'dm_cookie_consent';
+
+    function readConsent() {
+        try {
+            return localStorage.getItem(consentStorageKey);
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function saveConsent(value) {
+        try {
+            localStorage.setItem(consentStorageKey, value);
+        } catch (error) {
+            // Consent Mode still receives the choice for the current visit.
+        }
+
+        if (typeof window.gtag === 'function') {
+            window.gtag('consent', 'update', {
+                analytics_storage: value === 'granted' ? 'granted' : 'denied',
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied'
+            });
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'dm_consent_update', analytics_consent: value });
+    }
+
+    function showConsentBanner() {
+        if (document.querySelector('.cookie-consent')) return;
+
+        const banner = document.createElement('aside');
+        banner.className = 'cookie-consent';
+        banner.setAttribute('aria-label', 'Preferencias de medición');
+        banner.innerHTML = `
+            <div class="cookie-consent__copy">
+                <strong>Medir sin invadir.</strong>
+                <p>Usamos Analytics para entender qué páginas ayudan y cuáles hay que mejorar. Podés aceptar o rechazar la medición.</p>
+                <a href="cookies.html">Ver política de cookies</a>
+            </div>
+            <div class="cookie-consent__actions">
+                <button type="button" class="cookie-consent__button cookie-consent__button--secondary" data-consent="denied">Rechazar</button>
+                <button type="button" class="cookie-consent__button" data-consent="granted">Aceptar medición</button>
+            </div>`;
+
+        banner.querySelectorAll('[data-consent]').forEach(button => {
+            button.addEventListener('click', () => {
+                saveConsent(button.dataset.consent);
+                banner.remove();
+            });
+        });
+
+        document.body.appendChild(banner);
+    }
+
+    if (!readConsent()) {
+        showConsentBanner();
+    }
+
+    const preferencesButton = document.querySelector('#cookie-preferences-button');
+    preferencesButton?.addEventListener('click', () => {
+        try {
+            localStorage.removeItem(consentStorageKey);
+        } catch (error) {
+            // The banner can still be shown for the current visit.
+        }
+        showConsentBanner();
+    });
+
     // Mobile Menu Logic
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
