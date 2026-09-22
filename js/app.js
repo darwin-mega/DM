@@ -71,6 +71,36 @@ document.addEventListener('DOMContentLoaded', () => {
         showConsentBanner();
     });
 
+    // Recommended GA4 event: measures commercial intent without calling it a lead.
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('a');
+        if (!link || typeof window.gtag !== 'function') return;
+
+        const href = link.getAttribute('href') || '';
+        if (href === 'contacto.html' || href.endsWith('/contacto.html')) {
+            window.gtag('event', 'select_content', {
+                content_type: 'diagnostico_cta',
+                item_id: 'diagnostico_gratuito'
+            });
+            return;
+        }
+
+        const workCard = link.closest('.work-card');
+        if (workCard && /^https?:\/\//.test(link.href)) {
+            const projectName = workCard.querySelector('h3')?.textContent?.trim()
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '_')
+                .replace(/^_|_$/g, '');
+
+            window.gtag('event', 'select_content', {
+                content_type: 'proyecto',
+                item_id: projectName || 'proyecto_sin_nombre'
+            });
+        }
+    });
+
     // Mobile Menu Logic
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
