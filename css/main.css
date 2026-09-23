@@ -905,6 +905,134 @@ ul {
   line-height: 1.45;
 }
 
+/* Client trust: a compact proof layer, separate from the project portfolio */
+.client-trust {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+  color: var(--color-white);
+  background:
+    radial-gradient(circle at 82% 0%, rgba(255, 107, 0, 0.1), transparent 24rem),
+    #040d16;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.client-trust::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+.client-trust-heading {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.client-trust-eyebrow {
+  color: #ff9a52;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+}
+
+.client-trust-heading h2 {
+  margin-top: 0.8rem;
+  color: var(--color-white);
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.client-trust-heading p {
+  max-width: 680px;
+  margin-top: 1rem;
+  color: #9fb0c0;
+  font-size: 0.98rem;
+}
+
+.client-trust-viewport {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-top: 2.5rem;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+}
+
+.client-trust-track {
+  display: flex;
+  width: max-content;
+  animation: clientTrustScroll 34s linear infinite;
+}
+
+.client-trust-viewport:hover .client-trust-track {
+  animation-play-state: paused;
+}
+
+.client-trust-set {
+  display: flex;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.client-brand {
+  display: grid;
+  width: clamp(168px, 18vw, 210px);
+  min-height: 132px;
+  grid-template-rows: 82px auto;
+  place-items: center;
+  padding: 1rem 1.2rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.client-brand:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 107, 0, 0.45);
+  background: rgba(255, 255, 255, 0.085);
+}
+
+.client-brand img {
+  width: auto;
+  max-width: 112px;
+  height: 76px;
+  object-fit: contain;
+  filter: grayscale(1) saturate(0.75);
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+.client-brand:hover img {
+  filter: none;
+  transform: scale(1.04);
+}
+
+.client-brand span {
+  color: #dbe5ee;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.025em;
+  text-align: center;
+}
+
+@keyframes clientTrustScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 /* Selected work page */
 .work-page-hero {
   padding: clamp(9rem, 15vw, 12rem) 0 clamp(4rem, 8vw, 6.5rem);
@@ -1333,6 +1461,57 @@ a.work-card-link:hover .work-visual--agenda img {
     grid-template-columns: 2rem 1fr;
   }
 
+  .client-trust-viewport {
+    margin-top: 2rem;
+    mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+  }
+
+  .client-brand {
+    width: 166px;
+    min-height: 122px;
+    grid-template-rows: 74px auto;
+  }
+
+  .client-brand img {
+    height: 68px;
+  }
+
+  .strong-cta {
+    padding: 5rem 0 !important;
+  }
+
+  .strong-cta h2 {
+    font-size: clamp(2rem, 9.5vw, 2.35rem) !important;
+    line-height: 1.08;
+  }
+
+  .strong-cta p {
+    font-size: 1.12rem !important;
+  }
+
+  .strong-cta .btn {
+    width: min(100%, 320px);
+    padding: 1rem 1.25rem !important;
+    font-size: 1.05rem !important;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .client-trust-track {
+    animation: none;
+  }
+
+  .client-trust-viewport {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .client-trust-set[aria-hidden="true"] {
+    display: none;
+  }
 }
 
 /* Analytics consent */
