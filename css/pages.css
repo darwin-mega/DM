@@ -375,3 +375,222 @@
   }
 }
 
+/* Investment page */
+.investment-page {
+  min-height: 100vh;
+  overflow: hidden;
+  color: #eef4fa;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(255, 107, 0, 0.15), transparent 26rem),
+    radial-gradient(circle at 88% 48%, rgba(27, 123, 206, 0.14), transparent 30rem),
+    #050d16;
+}
+
+.investment-hero {
+  padding: 7rem 0 4rem;
+  text-align: center;
+}
+
+.investment-hero h1 {
+  max-width: 900px;
+  margin: 0 auto 1.4rem;
+  color: #fff;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.investment-hero h1 span {
+  color: var(--color-accent);
+  text-shadow: 0 0 38px rgba(255, 107, 0, 0.25);
+}
+
+.investment-lead {
+  max-width: 760px;
+  margin: 0 auto 2rem;
+  color: #b8c5d2;
+  font-size: 1.18rem;
+  line-height: 1.75;
+}
+
+.investment-reference {
+  padding: 1rem 0 6rem;
+}
+
+.investment-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.75fr);
+  gap: 3rem;
+  align-items: center;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 4.5rem);
+  overflow: hidden;
+  border: 1px solid rgba(255, 107, 0, 0.32);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(12, 35, 56, 0.94), rgba(4, 15, 26, 0.98));
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.38), inset 0 0 70px rgba(255, 107, 0, 0.035);
+}
+
+.investment-card::after {
+  content: '';
+  position: absolute;
+  right: -7rem;
+  bottom: -9rem;
+  width: 23rem;
+  height: 23rem;
+  border: 1px solid rgba(255, 107, 0, 0.22);
+  border-radius: 50%;
+  box-shadow: 0 0 70px rgba(255, 107, 0, 0.12);
+  pointer-events: none;
+}
+
+.investment-kicker {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(255, 107, 0, 0.4);
+  border-radius: 999px;
+  color: #ffbd8c;
+  background: rgba(255, 107, 0, 0.08);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.investment-card h2 {
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  line-height: 1.05;
+}
+
+.investment-card p {
+  max-width: 620px;
+  color: #b8c5d2;
+  line-height: 1.75;
+}
+
+.investment-price {
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(14px);
+}
+
+.investment-price small,
+.investment-price span {
+  display: block;
+  color: #b8c5d2;
+}
+
+.investment-price strong {
+  display: block;
+  margin: 0.4rem 0;
+  color: #ff7a19;
+  font-size: clamp(2.7rem, 6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.investment-factors,
+.investment-process {
+  padding: 5.5rem 0;
+}
+
+.investment-heading {
+  max-width: 760px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.investment-heading h2 {
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.investment-heading p {
+  color: #aebdcb;
+  line-height: 1.7;
+}
+
+.investment-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.investment-factor,
+.investment-step {
+  padding: 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.investment-factor strong,
+.investment-step strong {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.investment-factor p,
+.investment-step p {
+  color: #9fb0c0;
+  line-height: 1.6;
+}
+
+.investment-step span {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+  font-family: 'Courier New', monospace;
+  font-weight: 800;
+}
+
+.investment-cta {
+  padding: 6rem 0 8rem;
+  text-align: center;
+}
+
+.investment-cta__box {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 4rem);
+  border: 1px solid rgba(255, 107, 0, 0.28);
+  border-radius: 26px;
+  background: rgba(7, 25, 42, 0.78);
+}
+
+.investment-cta h2 {
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.investment-cta p {
+  max-width: 650px;
+  margin: 0 auto 2rem;
+  color: #aebdcb;
+  line-height: 1.7;
+}
+
+@media (max-width: 820px) {
+  .investment-card,
+  .investment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .investment-grid {
+    gap: 0.8rem;
+  }
+}

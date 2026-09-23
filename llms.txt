@@ -1,0 +1,31 @@
+# DM Marketing
+
+> Agencia de marketing en Uruguay para emprendedores, pymes y negocios locales. Diseña sistemas de captación coherentes que conectan estrategia, contenido, redes sociales, anuncios, sitios web, SEO, posicionamiento local y seguimiento comercial.
+
+Información importante:
+- DM Marketing trabaja como servicio por zona y de forma remota; no comunica un local de atención al público.
+- El diagnóstico parte del negocio y del recorrido del cliente antes de recomendar herramientas.
+- La gestión de redes sociales tiene una referencia desde $15.000 UYU mensuales.
+- Los demás servicios y combinaciones se cotizan a medida según alcance, producción, canales y objetivos.
+- La agenda y los canales de contacto están temporalmente en pausa hasta que se definan el número, el correo y el sistema de reservas.
+
+## Contenido principal
+
+- [Inicio](https://dm-pi-two.vercel.app/): propuesta de valor, problemas que resuelve DM Marketing, proceso de trabajo y enfoque de captación.
+- [Servicios](https://dm-pi-two.vercel.app/servicios.html): estrategia, contenido, redes sociales, anuncios, web, SEO, posicionamiento local, fotografía, drone y mejora del seguimiento comercial.
+- [Trabajos](https://dm-pi-two.vercel.app/trabajos.html): selección de proyectos y sistemas digitales desarrollados o acompañados por DM Marketing.
+- [Inversión](https://dm-pi-two.vercel.app/precios.html): referencia inicial para gestión de redes sociales y criterios usados para crear propuestas personalizadas.
+
+## Información complementaria
+
+- [Diagnóstico](https://dm-pi-two.vercel.app/contacto.html): alcance previsto del diagnóstico gratuito y estado actual de la agenda.
+- [Privacidad](https://dm-pi-two.vercel.app/privacidad.html): tratamiento provisional de datos y proveedores.
+- [Cookies](https://dm-pi-two.vercel.app/cookies.html): uso de Google Analytics y opciones de consentimiento.
+
+## Identidad y enfoque
+
+- Marca: DM Marketing.
+- Área de servicio: Uruguay.
+- Audiencia principal: emprendedores, pequeñas empresas y negocios locales que necesitan ordenar su captación y comunicación.
+- Promesa central: marketing que se mide en la caja, no en el feed.
+- Método: diagnóstico, plan, implementación, medición y optimización.
