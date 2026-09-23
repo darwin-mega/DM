@@ -13,6 +13,9 @@ Información importante:
 
 - [Inicio](https://dm-pi-two.vercel.app/): propuesta de valor, problemas que resuelve DM Marketing, proceso de trabajo y enfoque de captación.
 - [Servicios](https://dm-pi-two.vercel.app/servicios.html): estrategia, contenido, redes sociales, anuncios, web, SEO, posicionamiento local, fotografía, drone y mejora del seguimiento comercial.
+- [Gestión de redes sociales](https://dm-pi-two.vercel.app/redes-sociales.html): estrategia, producción, entregables, medición y referencia de inversión para pymes.
+- [SEO local](https://dm-pi-two.vercel.app/seo-local.html): arquitectura web, contenido, Google Business Profile y coherencia de señales para búsquedas locales.
+- [Sitios web](https://dm-pi-two.vercel.app/sitios-web.html): diseño, desarrollo, conversión, rendimiento, SEO técnico y analítica para pymes.
 - [Trabajos](https://dm-pi-two.vercel.app/trabajos.html): selección de proyectos y sistemas digitales desarrollados o acompañados por DM Marketing.
 - [Inversión](https://dm-pi-two.vercel.app/precios.html): referencia inicial para gestión de redes sociales y criterios usados para crear propuestas personalizadas.
 
@@ -29,4 +32,4 @@ Información importante:
 - Audiencia principal: emprendedores, pequeñas empresas y negocios locales que necesitan ordenar su captación y comunicación.
 - Promesa central: marketing que se mide en la caja, no en el feed.
 - Método: diagnóstico, plan, implementación, medición y optimización.
-- Clientes y marcas con trabajo realizado: Club de Rulos, Liga Interbalnearia de Baby Fútbol, El Parque, Liceo Cooperativo Aleph, Gino Parquet y Amazonas.
+- Clientes y marcas con trabajo realizado: Club de Rulos, Liga Interbalnearia de Baby Fútbol, El Parque, Liceo Cooperativo Aleph, -1 PRO y Amazonas.
