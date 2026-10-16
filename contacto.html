@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diagnóstico gratuito | DM Marketing</title>
-    <meta name="description" content="Conocé cómo será el diagnóstico gratuito de DM Marketing. La agenda está temporalmente en pausa mientras se definen los canales de contacto.">
+    <meta name="description" content="Solicitá un diagnóstico gratuito para tu negocio. Contanos qué querés mejorar y coordinamos una primera conversación por correo.">
     <meta name="robots" content="noindex, follow">
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/site-shell.css">
     <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/contacto.css?v=20261016">
 </head>
 
 <body>
@@ -63,7 +64,7 @@
             <li><a href="servicios.html">Servicios</a></li>
             <li><a href="trabajos.html">Trabajos</a></li>
             <li><a href="precios.html">Inversión</a></li>
-            <li><a href="contacto.html" class="nav-cta active">Agendar diagnóstico gratuito</a></li>
+            <li><a href="contacto.html" class="nav-cta active">Solicitar diagnóstico gratuito</a></li>
         </ul>
         <button class="close-menu-btn" aria-label="Cerrar menú">&times;</button>
     </div>
@@ -72,35 +73,75 @@
         <section class="page-stage">
             <div class="container">
                 <span class="page-eyebrow">Diagnóstico gratuito</span>
-                <h1 class="page-title">La agenda está en pausa. La estrategia, no.</h1>
-                <p class="page-lead">Estamos definiendo el número, el correo y el canal de reservas. Mientras tanto, te contamos exactamente qué vamos a mirar cuando la agenda quede activa.</p>
-
-                <article class="status-card">
-                    <span class="status-pill">Agenda temporalmente en pausa</span>
-                    <h2>No vamos a pedirte datos sin tener listo el circuito.</h2>
-                    <p>El diagnóstico será una primera revisión para ordenar prioridades. Sin venderte cinco herramientas antes de entender si necesitás una.</p>
-
-                    <div class="status-grid">
-                        <div class="status-item">
-                            <strong>Oferta y cliente</strong>
-                            <span>Qué vendés, a quién y por qué deberían elegirte.</span>
-                        </div>
-                        <div class="status-item">
-                            <strong>Captación actual</strong>
-                            <span>Cómo llegan hoy las consultas y dónde se pierden.</span>
-                        </div>
-                        <div class="status-item">
-                            <strong>Próximo movimiento</strong>
-                            <span>Qué conviene priorizar y qué puede esperar.</span>
-                        </div>
+                <h1 class="page-title">Contanos qué necesita tu negocio.</h1>
+                <p class="page-lead">Primero entendemos cómo vendés y dónde se traban las consultas. Después definimos qué conviene priorizar.</p>
+                <div class="contact-layout">
+                    <div class="contact-intro">
+                        <h2>Una primera conversación para ordenar prioridades.</h2>
+                        <p>No necesitás tener un plan armado. Con una breve descripción de tu negocio y lo que querés mejorar podemos empezar.</p>
+                        <ul>
+                            <li><strong>Oferta y cliente:</strong> qué vendés, a quién y por qué deberían elegirte.</li>
+                            <li><strong>Captación actual:</strong> cómo llegan las consultas y dónde se pierden.</li>
+                            <li><strong>Próximo movimiento:</strong> qué conviene hacer primero y qué puede esperar.</li>
+                        </ul>
+                        <p>Dejanos tu consulta. Te responderemos por correo para coordinar el diagnóstico, sin compromiso de contratación.</p>
                     </div>
-
-                    <div class="page-actions">
-                        <a href="servicios.html" class="btn btn-primary">Explorar servicios</a>
-                        <a href="precios.html" class="btn btn-muted">Ver inversión de referencia</a>
-                        <span class="pause-note">El botón de reserva se habilitará cuando el canal esté definido.</span>
+                    <div class="contact-card">
+                        <form id="diagnostico-form" class="contact-form" action="https://formsubmit.co/2f765721e50089da29cea20153c6e87e" method="POST" data-endpoint="https://formsubmit.co/ajax/2f765721e50089da29cea20153c6e87e">
+                            <input type="hidden" name="_subject" value="Nueva solicitud de diagnóstico — DM Marketing">
+                            <input type="hidden" name="_template" value="table">
+                            <div class="contact-honey" aria-hidden="true">
+                                <label for="sitio-verificacion">Dejá este campo vacío</label>
+                                <input id="sitio-verificacion" type="text" name="_honey" tabindex="-1" autocomplete="off">
+                            </div>
+                            <p class="contact-note">Los campos con * son obligatorios.</p>
+                            <div class="contact-row">
+                                <div class="contact-field">
+                                    <label for="nombre">Tu nombre *</label>
+                                    <input id="nombre" name="nombre" type="text" autocomplete="name" minlength="2" maxlength="100" required>
+                                </div>
+                                <div class="contact-field">
+                                    <label for="negocio">Nombre del negocio *</label>
+                                    <input id="negocio" name="negocio" type="text" autocomplete="organization" minlength="2" maxlength="150" required>
+                                </div>
+                            </div>
+                            <div class="contact-field">
+                                <label for="email">Tu correo electrónico *</label>
+                                <input id="email" name="email" type="email" autocomplete="email" maxlength="200" required>
+                            </div>
+                            <div class="contact-row">
+                                <div class="contact-field">
+                                    <label for="telefono">Teléfono <span>(opcional)</span></label>
+                                    <input id="telefono" name="telefono" type="tel" autocomplete="tel" maxlength="40">
+                                </div>
+                                <div class="contact-field">
+                                    <label for="interes">¿Qué querés mejorar? *</label>
+                                    <select id="interes" name="interes" required>
+                                        <option value="">Seleccioná una opción</option>
+                                        <option>Captación de clientes</option>
+                                        <option>Redes y contenido</option>
+                                        <option>Publicidad digital</option>
+                                        <option>Sitio web o presencia en Google</option>
+                                        <option>Seguimiento de consultas</option>
+                                        <option>Necesito orientación</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="contact-field">
+                                <label for="mensaje">Contanos sobre tu negocio y tu objetivo *</label>
+                                <textarea id="mensaje" name="mensaje" minlength="15" maxlength="3000" placeholder="Qué ofrecés, cómo conseguís clientes hoy y qué te gustaría mejorar." required></textarea>
+                            </div>
+                            <label class="contact-privacy" for="privacidad">
+                                <input id="privacidad" name="privacidad" type="checkbox" required>
+                                <span>Leí la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a> y autorizo el uso de estos datos para responder mi consulta.</span>
+                            </label>
+                            <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+                            <p id="form-status" class="contact-status" role="status" aria-live="polite" tabindex="-1"></p>
+                            <noscript><p class="contact-note">Al enviar, se abrirá la página de confirmación del servicio de formularios.</p></noscript>
+                        </form>
+                        <p class="contact-alternative">También podés escribirnos a <a href="mailto:dar1win22@gmail.com">dar1win22@gmail.com</a>.</p>
                     </div>
-                </article>
+                </div>
             </div>
         </section>
     </main>
@@ -121,12 +162,7 @@
                         <li><a href="contacto.html">Diagnóstico gratuito</a></li>
                     </ul>
                 </div>
-                <div class="footer-status">
-                    <h2>Agenda</h2>
-                    <span class="status-pill">Temporalmente en pausa</span>
-                    <p>Los canales de contacto se publicarán cuando estén definidos.</p>
-                    <p>Uruguay</p>
-                </div>
+                <div class="footer-status"><h2>Contacto</h2><a href="contacto.html" class="status-pill">Solicitar diagnóstico</a><p>Contanos sobre tu negocio y coordinamos por correo.</p><p>Uruguay</p></div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 DM Marketing. Todos los derechos reservados.</p>
@@ -139,6 +175,8 @@
     </footer>
 
     <script src="js/app.js"></script>
+    <script src="js/contacto.js?v=20261016"></script>
 </body>
 
 </html>
+

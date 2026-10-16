@@ -7,7 +7,7 @@ Información importante:
 - El diagnóstico parte del negocio y del recorrido del cliente antes de recomendar herramientas.
 - La gestión de redes sociales tiene una referencia desde $15.000 UYU mensuales.
 - Los demás servicios y combinaciones se cotizan a medida según alcance, producción, canales y objetivos.
-- La agenda y los canales de contacto están temporalmente en pausa hasta que se definan el número, el correo y el sistema de reservas.
+- El diagnóstico gratuito se solicita mediante el formulario de contacto. DM Marketing responde por correo para coordinar la conversación. WhatsApp y el dominio propio están pendientes de configuración.
 
 ## Contenido principal
 
@@ -21,7 +21,7 @@ Información importante:
 
 ## Información complementaria
 
-- [Diagnóstico](https://dm-pi-two.vercel.app/contacto.html): alcance previsto del diagnóstico gratuito y estado actual de la agenda.
+- [Diagnóstico](https://dm-pi-two.vercel.app/contacto.html): formulario de solicitud del diagnóstico gratuito y alcance de la primera conversación.
 - [Privacidad](https://dm-pi-two.vercel.app/privacidad.html): tratamiento provisional de datos y proveedores.
 - [Cookies](https://dm-pi-two.vercel.app/cookies.html): uso de Google Analytics y opciones de consentimiento.
 
@@ -33,3 +33,4 @@ Información importante:
 - Promesa central: marketing que se mide en la caja, no en el feed.
 - Método: diagnóstico, plan, implementación, medición y optimización.
 - Clientes y marcas con trabajo realizado: Club de Rulos, Liga Interbalnearia de Baby Fútbol, El Parque, Liceo Cooperativo Aleph, -1 PRO y Amazonas.
+
