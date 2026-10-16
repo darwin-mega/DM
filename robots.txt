@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dm-pi-two.vercel.app/sitemap.xml
+Sitemap: https://dmarketing.uy/sitemap.xml

@@ -26,3 +26,7 @@
 .contact-alternative { color: #b5c4d2; font-size: .9rem; margin-top: 20px; }
 .contact-note { color: #b5c4d2; font-size: .9rem; }
 @media (max-width: 780px) { .contact-layout { grid-template-columns: 1fr; gap: 30px; margin-top: 32px; } .contact-row { grid-template-columns: 1fr; } }
+
+
+.contact-whatsapp { margin-top: 24px; }
+.contact-whatsapp .btn { width: 100%; text-align: center; }

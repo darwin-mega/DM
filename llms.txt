@@ -7,23 +7,23 @@ Información importante:
 - El diagnóstico parte del negocio y del recorrido del cliente antes de recomendar herramientas.
 - La gestión de redes sociales tiene una referencia desde $15.000 UYU mensuales.
 - Los demás servicios y combinaciones se cotizan a medida según alcance, producción, canales y objetivos.
-- El diagnóstico gratuito se solicita mediante el formulario de contacto. DM Marketing responde por correo para coordinar la conversación. WhatsApp y el dominio propio están pendientes de configuración.
+- El diagnóstico gratuito se solicita mediante el formulario de contacto. DM Marketing responde por correo para coordinar la conversación. Dominio principal: https://dmarketing.uy/. WhatsApp de contacto: +598 94 893 040.
 
 ## Contenido principal
 
-- [Inicio](https://dm-pi-two.vercel.app/): propuesta de valor, problemas que resuelve DM Marketing, proceso de trabajo y enfoque de captación.
-- [Servicios](https://dm-pi-two.vercel.app/servicios.html): estrategia, contenido, redes sociales, anuncios, web, SEO, posicionamiento local, fotografía, drone y mejora del seguimiento comercial.
-- [Gestión de redes sociales](https://dm-pi-two.vercel.app/redes-sociales.html): estrategia, producción, entregables, medición y referencia de inversión para pymes.
-- [SEO local](https://dm-pi-two.vercel.app/seo-local.html): arquitectura web, contenido, Google Business Profile y coherencia de señales para búsquedas locales.
-- [Sitios web](https://dm-pi-two.vercel.app/sitios-web.html): diseño, desarrollo, conversión, rendimiento, SEO técnico y analítica para pymes.
-- [Trabajos](https://dm-pi-two.vercel.app/trabajos.html): selección de proyectos y sistemas digitales desarrollados o acompañados por DM Marketing.
-- [Inversión](https://dm-pi-two.vercel.app/precios.html): referencia inicial para gestión de redes sociales y criterios usados para crear propuestas personalizadas.
+- [Inicio](https://dmarketing.uy/): propuesta de valor, problemas que resuelve DM Marketing, proceso de trabajo y enfoque de captación.
+- [Servicios](https://dmarketing.uy/servicios.html): estrategia, contenido, redes sociales, anuncios, web, SEO, posicionamiento local, fotografía, drone y mejora del seguimiento comercial.
+- [Gestión de redes sociales](https://dmarketing.uy/redes-sociales.html): estrategia, producción, entregables, medición y referencia de inversión para pymes.
+- [SEO local](https://dmarketing.uy/seo-local.html): arquitectura web, contenido, Google Business Profile y coherencia de señales para búsquedas locales.
+- [Sitios web](https://dmarketing.uy/sitios-web.html): diseño, desarrollo, conversión, rendimiento, SEO técnico y analítica para pymes.
+- [Trabajos](https://dmarketing.uy/trabajos.html): selección de proyectos y sistemas digitales desarrollados o acompañados por DM Marketing.
+- [Inversión](https://dmarketing.uy/precios.html): referencia inicial para gestión de redes sociales y criterios usados para crear propuestas personalizadas.
 
 ## Información complementaria
 
-- [Diagnóstico](https://dm-pi-two.vercel.app/contacto.html): formulario de solicitud del diagnóstico gratuito y alcance de la primera conversación.
-- [Privacidad](https://dm-pi-two.vercel.app/privacidad.html): tratamiento provisional de datos y proveedores.
-- [Cookies](https://dm-pi-two.vercel.app/cookies.html): uso de Google Analytics y opciones de consentimiento.
+- [Diagnóstico](https://dmarketing.uy/contacto.html): formulario de solicitud del diagnóstico gratuito y alcance de la primera conversación.
+- [Privacidad](https://dmarketing.uy/privacidad.html): tratamiento provisional de datos y proveedores.
+- [Cookies](https://dmarketing.uy/cookies.html): uso de Google Analytics y opciones de consentimiento.
 
 ## Identidad y enfoque
 
@@ -33,4 +33,3 @@ Información importante:
 - Promesa central: marketing que se mide en la caja, no en el feed.
 - Método: diagnóstico, plan, implementación, medición y optimización.
 - Clientes y marcas con trabajo realizado: Club de Rulos, Liga Interbalnearia de Baby Fútbol, El Parque, Liceo Cooperativo Aleph, -1 PRO y Amazonas.
-
