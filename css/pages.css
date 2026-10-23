@@ -935,3 +935,6 @@
 .service-detail-hero .service-signal-label {line-height:1.6;margin-bottom:1rem;display:block;}
 @media(max-width:1100px){.service-detail-hero__grid{grid-template-columns:1fr;gap:2.5rem;}.service-signal-panel{min-height:290px;}}
 @media(max-width:640px){.service-detail-hero h1{font-size:clamp(2.35rem,10vw,3.4rem);}.service-detail-actions .btn{white-space:normal;text-align:center;}.service-signal-panel{min-height:280px;}}
+
+.service-detail-section[aria-labelledby="servicios-especializados"] {background:#050e17;color:#afbdca;}
+.service-detail-section[aria-labelledby="servicios-especializados"] h3 a {color:#fff;}
