@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!link || typeof window.gtag !== 'function') return;
 
         const href = link.getAttribute('href') || '';
-        if (href === 'contacto.html' || href.endsWith('/contacto.html')) {
+        if (new URL(href, window.location.href).pathname.endsWith('/contacto.html') && !window.dmService) {
             window.gtag('event', 'select_content', {
                 content_type: 'diagnostico_cta',
                 item_id: 'diagnostico_gratuito'

@@ -46,7 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = 'Solicitud enviada';
             // Only a successful provider response counts as a lead. Never send personal data.
             if (!isTest && typeof window.gtag === 'function') {
-                window.gtag('event', 'generate_lead', { form_id: 'diagnostico', lead_source: 'web_form' });
+                const serviceEvents={aereo:'consulta_aereo',consultoria:'consulta_estrategica',meta_ads:'consulta_meta_ads',google_ads:'consulta_google_ads',contenido:'consulta_contenido'};
+                const service=window.dmService;
+                window.gtag('event', serviceEvents[service] || 'generate_lead', { form_id: 'diagnostico', lead_source: 'web_form', ...(serviceEvents[service] ? {service_id:service} : {}) });
             }
             form.reset();
         } catch (error) {
