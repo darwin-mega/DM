@@ -1,23 +1,21 @@
-# DM Marketing
+# dmarketing
 
 > Agencia de marketing en Uruguay para emprendedores, pymes y negocios locales. Diseña sistemas de captación coherentes que conectan estrategia, contenido, redes sociales, anuncios, sitios web, SEO, posicionamiento local y seguimiento comercial.
 
 Información importante:
-- DM Marketing trabaja como servicio por zona y de forma remota; no comunica un local de atención al público.
+- dmarketing trabaja como servicio por zona y de forma remota; no comunica un local de atención al público.
 - El diagnóstico parte del negocio y del recorrido del cliente antes de recomendar herramientas.
-- La gestión de redes sociales tiene una referencia desde $15.000 UYU mensuales.
 - Los demás servicios y combinaciones se cotizan a medida según alcance, producción, canales y objetivos.
-- El diagnóstico gratuito se solicita mediante el formulario de contacto. DM Marketing responde por correo para coordinar la conversación. Dominio principal: https://dmarketing.uy/. WhatsApp de contacto: +598 94 893 040.
+- El diagnóstico gratuito se solicita mediante el formulario de contacto. dmarketing responde por correo para coordinar la conversación. Dominio principal: https://dmarketing.uy/. WhatsApp de contacto: +598 94 893 040.
 
 ## Contenido principal
 
-- [Inicio](https://dmarketing.uy/): propuesta de valor, problemas que resuelve DM Marketing, proceso de trabajo y enfoque de captación.
+- [Inicio](https://dmarketing.uy/): propuesta de valor, problemas que resuelve dmarketing, proceso de trabajo y enfoque de captación.
 - [Servicios](https://dmarketing.uy/servicios.html): estrategia, contenido, redes sociales, anuncios, web, SEO, posicionamiento local, fotografía, drone y mejora del seguimiento comercial.
-- [Gestión de redes sociales](https://dmarketing.uy/redes-sociales.html): estrategia, producción, entregables, medición y referencia de inversión para pymes.
+- [Gestión de redes sociales](https://dmarketing.uy/redes-sociales.html): planificación editorial, producción de reels, fotografías, carruseles e historias.
 - [SEO local](https://dmarketing.uy/seo-local.html): arquitectura web, contenido, Google Business Profile y coherencia de señales para búsquedas locales.
 - [Sitios web](https://dmarketing.uy/sitios-web.html): diseño, desarrollo, conversión, rendimiento, SEO técnico y analítica para pymes.
-- [Trabajos](https://dmarketing.uy/trabajos.html): selección de proyectos y sistemas digitales desarrollados o acompañados por DM Marketing.
-- [Inversión](https://dmarketing.uy/precios.html): referencia inicial para gestión de redes sociales y criterios usados para crear propuestas personalizadas.
+- [Trabajos](https://dmarketing.uy/trabajos.html): selección de proyectos y sistemas digitales desarrollados o acompañados por dmarketing.
 
 ## Información complementaria
 
@@ -27,7 +25,7 @@ Información importante:
 
 ## Identidad y enfoque
 
-- Marca: DM Marketing.
+- Marca: dmarketing.
 - Área de servicio: Uruguay.
 - Audiencia principal: emprendedores, pequeñas empresas y negocios locales que necesitan ordenar su captación y comunicación.
 - Promesa central: marketing que se mide en la caja, no en el feed.
