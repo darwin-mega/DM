@@ -1210,6 +1210,33 @@ a.work-card-link:hover .work-visual img {
   background: radial-gradient(circle at 50% 40%, #3a2025, #100f12 70%);
 }
 
+.work-visual--proyectos {
+  background: linear-gradient(140deg, #061522, #0c3956);
+}
+
+.work-project-preview {
+  position: absolute;
+  inset: 30% 16% 26%;
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  padding: 12%;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 8%);
+}
+
+.work-project-preview i {
+  display: block;
+  width: 45%;
+  height: 8px;
+  border-radius: 8px;
+  background: #f5782e;
+}
+
+.work-project-preview i:nth-child(2) { margin-left: 25%; width: 50%; background: #a3bbc9; }
+.work-project-preview i:nth-child(3) { margin-left: 56%; width: 35%; }
+
 .work-visual--agenda img,
 .work-visual--club img {
   max-width: 54%;

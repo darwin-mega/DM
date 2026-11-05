@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proyectos · dmarketing</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#061522">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a href="../index.html" class="brand"><img src="./dm-marketing.webp" alt="DM Marketing"></a>
+      <a href="../trabajos.html" class="back-link">Volver a Trabajos</a>
+    </div>
+  </header>
+  <main>
+    <div class="intro">
+      <p class="eyebrow">Herramientas dmarketing <span id="mode">Planificación</span></p>
+      <h1>Planificador de proyectos</h1>
+      <p>Armá el cronograma, organizá los pagos y compará cómo cambian los plazos y el presupuesto.</p>
+    </div>
+    <p id="status" role="status"></p>
+    <p id="file-preview" hidden>Para cargar el calendario y el editor, <a href="https://dmarketing.uy/proyectos/index.html">abrí el planificador en dmarketing.uy</a>.</p>
+    <noscript><p>Activá JavaScript para usar el planificador.</p></noscript>
+    <section class="toolbar editor" id="project-tools" aria-label="Proyectos guardados">
+      <select id="projects" aria-label="Proyecto actual"></select>
+      <button id="new">Nuevo proyecto</button><button id="example">Abrir ejemplo Blink</button>
+      <button id="undo">Deshacer</button><button id="cloud-save">Guardar en línea</button><button id="cloud-open">Abrir guardado en línea</button>
+    </section>
+    <section>
+      <h2 id="title">Proyecto</h2>
+      <form id="settings" class="editor">
+        <label>Nombre<input name="name" required></label>
+        <label>Inicio<input name="start" type="date" required></label>
+        <label>Presupuesto USD<input name="budget" type="number" min="0" step="0.01"></label>
+        <label>Reserva USD<input name="reserve" type="number" min="0" step="0.01"></label>
+        <label>Qué se entrega<textarea name="scope"></textarea></label>
+        <label>Qué queda fuera<textarea name="exclusions"></textarea></label>
+        <button>Guardar datos del proyecto</button>
+      </form>
+      <div id="scope"></div>
+      <div class="toolbar editor">
+        <button id="baseline">Guardar línea base</button><button id="variant">Crear variante</button>
+        <select id="plan" aria-label="Plan visible"></select>
+      </div>
+      <div id="metrics" class="metrics"></div>
+      <div id="comparison"></div>
+      <p id="issues"></p>
+    </section>
+    <section id="cashflow-section" aria-labelledby="cashflow-heading">
+      <h2 id="cashflow-heading">Flujo de caja</h2>
+      <p>Programá los pagos por fecha. Podés dividir el costo de una tarea en varias cuotas.</p>
+      <form id="payment-form" class="editor">
+        <label>Tarea o hito<select name="taskId" required></select></label>
+        <label>Fecha de pago<input name="date" type="date" required></label>
+        <label>Importe USD<input name="amount" type="number" min="0.01" step="0.01" required></label>
+        <button id="save-payment">Agregar pago</button>
+        <button id="cancel-payment" type="button" hidden>Cancelar edición</button>
+      </form>
+      <div id="cashflow" class="comparison-scroll"></div>
+    </section>
+    <section>
+      <div class="toolbar"><h2>Calendario del proyecto</h2><button class="editor" id="add">Agregar tarea o hito</button></div>
+      <p class="editor">Elegí un día para agregar trabajo. Arrastrá una barra para previsualizar el cambio. También podés cambiar la fecha al editar una tarea.</p>
+      <div id="calendar" tabindex="0" aria-label="Calendario desplazable"></div>
+      <details><summary>Ver ramas críticas y holguras</summary><div id="critical"></div></details>
+    </section>
+    <section class="editor">
+      <h2>Evento y respuesta</h2>
+      <form id="report">
+        <label>Qué pasó<textarea name="event"></textarea></label>
+        <label>Qué decidimos y por qué<textarea name="response"></textarea></label>
+        <label>Cómo vamos a comprobar el resultado<textarea name="monitoring"></textarea></label>
+        <button>Guardar análisis</button>
+      </form>
+    </section>
+    <section class="toolbar editor" id="outputs">
+      <button id="share">Compartir enlace</button><button id="manage-shares">Administrar enlaces</button><button id="xml">Descargar XML</button>
+      <button id="mpp">Descargar .mpp</button><button id="report-download">Descargar informe</button>
+    </section>
+  </main>
+  <dialog id="task-dialog">
+    <form id="task">
+      <h2>Tarea, hito o grupo</h2>
+      <label>Nombre<input name="name" required></label>
+      <label>Código EDT<input name="code" placeholder="A01"></label>
+      <label>Actividades de origen<input name="sourceCodes" placeholder="A01, A02"></label>
+      <label>Tipo<select name="kind"><option value="task">Tarea</option><option value="milestone">Hito</option><option value="group">Grupo</option></select></label>
+      <label>Grupo<select name="parentId"></select></label>
+      <label>Responsable / recurso<input name="responsible"></label>
+      <label>Duración en días corridos<input name="duration" type="number" min="1" step="1" value="1"></label>
+      <label>Empieza a partir del<input name="notBefore" type="date"></label>
+      <label id="milestone-timing" hidden>Ubicación del hito
+        <select name="timing"><option value="start">Al inicio del día disponible</option><option value="end">Al cierre del último día de trabajo</option></select>
+      </label>
+      <fieldset><legend>Empieza después de</legend><div id="dependencies"></div></fieldset>
+      <label>Tipo de costo<select name="costMode"><option value="fixed">Importe fijo</option><option value="per-unit">Cantidad × precio</option><option value="per-day">Por día</option></select></label>
+      <label>Importe fijo USD<input name="cost" type="number" min="0" step="0.01" value="0"></label>
+      <label>Cantidad<input name="quantity" type="number" min="0" step="any" value="1"></label>
+      <label>Precio unitario o por día USD<input name="rate" type="number" min="0" step="0.01" value="0"></label>
+      <p id="task-error" role="alert"></p>
+      <div class="toolbar"><button>Guardar</button><button type="button" id="delete">Eliminar</button><button type="button" data-close>Cancelar</button></div>
+    </form>
+  </dialog>
+  <dialog id="move-dialog">
+    <h2>Impacto antes de mover</h2><div id="impact"></div>
+    <div class="toolbar"><button id="apply-move">Aplicar cambio</button><button data-close>Cancelar</button></div>
+  </dialog>
+  <dialog id="share-dialog">
+    <h2>Enlaces activos del proyecto</h2>
+    <div id="share-list"></div>
+    <p id="share-error" role="alert"></p>
+    <button data-close>Cerrar</button>
+  </dialog>
+  <dialog id="disclosure-dialog">
+    <form id="disclosure-form">
+      <h2 id="disclosure-title"></h2>
+      <p id="disclosure-plan"></p>
+      <label><span><input type="checkbox" name="finance"> <span id="disclosure-finance"></span></span></label>
+      <label><span><input type="checkbox" name="resources"> Responsables y recursos</span></label>
+      <label><span><input type="checkbox" name="notes"> Alcance, exclusiones y notas</span></label>
+      <p>Revisá los nombres de proyectos y tareas si incluyen información privada.</p>
+      <div class="toolbar"><button id="disclosure-confirm">Continuar</button><button type="button" data-close>Cancelar</button></div>
+    </form>
+  </dialog>
+  <script>
+    if (location.protocol === 'file:') {
+      document.body.classList.add('file-preview');
+      document.getElementById('file-preview').hidden = false;
+    }
+  </script>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
