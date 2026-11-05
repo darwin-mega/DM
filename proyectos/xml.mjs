@@ -1,6 +1,8 @@
 import { schedule } from './domain.mjs';
 
 const MINUTES_PER_DAY = 480;
+// MSPDI stores currency values in hundredths of a currency unit.
+const currencyValue = amount => Math.round(amount * 100);
 const escapeXml = value => String(value).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '')
   .replace(/[<>&'"]/g, character => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[character]);
 const tag = (name, value) => value === undefined || value === null ? '' : `<${name}>${escapeXml(value)}</${name}>`;
@@ -58,7 +60,7 @@ export function toProjectXml(project, { baseline } = {}) {
       Start: stamp(original.start, original.atEnd),
       Finish: stamp(original.finish, original.kind !== 'milestone' || original.atEnd),
       Duration: durationValue(original.duration),
-      DurationFormat: 7, Cost: original.totalCost,
+      DurationFormat: 7, Cost: currencyValue(original.totalCost),
     })) : '';
     return section('Task', fields({
       UID: uid, ID: uid, Name: row.code ? `${row.code} · ${row.name}` : row.name, Type: 1,
@@ -67,7 +69,7 @@ export function toProjectXml(project, { baseline } = {}) {
       Work: durationValue(0), EffortDriven: 0, Milestone: Number(milestone), Summary: Number(summary),
       Critical: Number(Boolean(row.critical)),
       TotalSlack: summary ? undefined : row.float * MINUTES_PER_DAY * 10,
-      FixedCost: summary ? 0 : row.totalCost, FixedCostAccrual: 3, Cost: row.totalCost,
+      FixedCost: summary ? 0 : currencyValue(row.totalCost), FixedCostAccrual: 3, Cost: currencyValue(row.totalCost),
       ConstraintType: row.notBefore && !summary ? 4 : 0, CalendarUID: 1,
       ConstraintDate: row.notBefore && !summary ? stamp(row.notBefore) : undefined,
       LevelingCanSplit: 0, IgnoreResourceCalendar: 1,
@@ -92,7 +94,7 @@ export function toProjectXml(project, { baseline } = {}) {
     UID: 0, ID: 0, Name: project.name || 'Proyecto', Type: 1, WBS: 0, OutlineNumber: 0, OutlineLevel: 0,
     Start: stamp(project.start), Finish: stamp(plan.finish, plan.duration > 0),
     Duration: durationValue(plan.duration), DurationFormat: 7, Work: durationValue(0),
-    Milestone: 0, Summary: 1, Cost: plan.subtotal, CalendarUID: 1, Notes: notes,
+    Milestone: 0, Summary: 1, Cost: currencyValue(plan.subtotal), CalendarUID: 1, Notes: notes,
   }));
   const lastWorkEnds = plan.tasks.some(row => row.finish === plan.finish && (row.kind === 'task' || row.atEnd));
   return '<?xml version="1.0" encoding="UTF-8"?>\n<Project xmlns="http://schemas.microsoft.com/project">'
