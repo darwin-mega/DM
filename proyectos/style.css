@@ -112,3 +112,11 @@ dialog::backdrop{background:#06152299}
 #cashflow tfoot { background: #eaf1f7; font-weight: 700; }
 #cashflow details { margin-top: 14px; }
 #cashflow summary { cursor: pointer; }
+
+.locked main > section:not(#account) { display: none; }
+body.readonly #account, body.readonly #empty-projects { display: none; }
+body.archived form.editor, body.archived #add, body.archived #baseline, body.archived #variant, body.archived #undo { display: none; }
+body.no-project main > section:not(#account):not(#project-tools):not(#empty-projects) { display: none; }
+#login { background: var(--blue); color: white; font-weight: 600; min-height: 44px; }
+#account-status { font-weight: 600; overflow-wrap: anywhere; }
+#account p:last-child { margin: 10px 0 0; font-size: .875rem; color: #40586b; }

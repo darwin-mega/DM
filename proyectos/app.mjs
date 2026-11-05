@@ -15,33 +15,30 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 })[character]);
 const message = value => { $('status').textContent = value; };
-const storeKey = 'dm-planner-v1';
-const selectionKey = 'dm-planner-selected';
+let storeKey;
+let selectionKey;
+let session;
+let isAdmin = false;
+let busy = false;
+let saveQueue = Promise.resolve();
 const shareToken = new URLSearchParams(location.hash.slice(1)).get('share');
 const readonly = shareToken !== null;
 const cloud = cloudConfig.url && cloudConfig.key ? createCloud(cloudConfig) : null;
 const empty = () => ({ name: 'Proyecto nuevo', start: iso(Date.now()), budget: 0, reserve: 0, tasks: [] });
 const record = (working = empty()) => ({ id: id(), working, baseline: null, variant: null, report: {} });
 let projects = [];
-let savedSelection;
-if (!readonly) {
-  try {
-    projects = JSON.parse(localStorage.getItem(storeKey)) || [];
-    savedSelection = localStorage.getItem(selectionKey);
-  } catch { projects = []; }
-  if (!projects.length) projects.push(record());
-}
-let selected = (projects.find(project => project.id === savedSelection) ?? projects[0])?.id;
+let selected;
 let view = 'working';
 let editingId;
 let pendingMove;
 let history = [];
 const current = () => projects.find(project => project.id === selected);
 const plan = () => current()?.[view];
-const editable = () => !readonly && view !== 'baseline';
+const editable = () => !readonly && Boolean(session) && !busy && !current()?.cloudArchived && view !== 'baseline';
 const financeVisible = () => !readonly || current()?.financeVisible !== false;
 
 function save() {
+  if (readonly || !storeKey) return;
   try {
     localStorage.setItem(storeKey, JSON.stringify(projects));
     localStorage.setItem(selectionKey, selected);
@@ -52,6 +49,11 @@ function save() {
 function change(action) {
   history.push({ projects: clone(projects), selected, view });
   action();
+  if (current()) {
+    current().pendingSave = true;
+    current().editRevision = (current().editRevision ?? 0) + 1;
+    message('Cambios guardados en este navegador. Pulsá Guardar en línea para sincronizarlos.');
+  }
   save();
   render();
 }
@@ -65,7 +67,13 @@ function setFields(form, values) {
 function render() {
   const project = current();
   const data = plan();
-  if (!data) return;
+  updateAccountControls();
+  document.body.classList.toggle('no-project', !data);
+  document.body.classList.toggle('archived', Boolean(project?.cloudArchived));
+  if (!data) {
+    $('projects').replaceChildren();
+    return;
+  }
   const result = schedule(data);
   document.body.classList.toggle('readonly', readonly);
   $('mode').textContent = readonly ? 'Vista compartida · solo lectura' : 'Planificación';
@@ -73,7 +81,7 @@ function render() {
   $('scope').innerHTML = [
     ['Alcance', data.scope], ['Exclusiones', data.exclusions],
   ].filter(([, value]) => value).map(([label, value]) => `<p><b>${label}</b> ${escape(value)}</p>`).join('');
-  $('projects').replaceChildren(...projects.map(item => new Option(item.working.name, item.id)));
+  $('projects').replaceChildren(...projects.map(item => new Option(item.working.name + (item.cloudArchived ? ' · Archivado' : ''), item.id)));
   $('projects').value = selected;
   $('plan').replaceChildren(...[['working', 'Plan de trabajo'], ['baseline', 'Línea base'], ['variant', 'Variante']]
     .filter(([key]) => project[key]).map(([key, label]) => new Option(label, key)));
@@ -82,9 +90,9 @@ function render() {
   setFields($('settings'), data);
   setFields($('report'), project.report);
   $('add').disabled = !editable();
-  $('undo').disabled = !history.length;
-  $('variant').disabled = !project.baseline || Boolean(project.variant);
-  $('baseline').disabled = Boolean(project.baseline) || !data.tasks.length || Boolean(result.errors.length || result.warnings.length);
+  $('undo').disabled = !history.length || !editable();
+  $('variant').disabled = readonly || !session || busy || project.cloudArchived || !project.baseline || Boolean(project.variant);
+  $('baseline').disabled = !editable() || Boolean(project.baseline) || !data.tasks.length || Boolean(result.errors.length || result.warnings.length);
   const metrics = [
     ['Cierre estimado', result.finish || '—'],
     ['Duración', `${result.duration} días`],
@@ -447,17 +455,14 @@ $('report').onsubmit = event => {
   event.preventDefault();
   change(() => { current().report = Object.fromEntries(new FormData(event.currentTarget)); });
 };
-$('new').onclick = () => change(() => {
-  const project = record();
-  projects.push(project); selected = project.id; view = 'working';
-});
-$('example').onclick = () => change(() => {
+$('new').onclick = () => run(() => createProject(record()));
+$('example').onclick = () => {
   const original = makeBlink();
   const project = record(original);
   project.baseline = clone(original);
   project.variant = makeBlink(true);
-  projects.push(project); selected = project.id; view = 'variant';
-});
+  run(() => createProject(project));
+};
 $('projects').onchange = event => { selected = event.target.value; view = 'working'; save(); render(); };
 $('plan').onchange = event => { view = event.target.value; render(); };
 $('add').onclick = () => openTask();
@@ -513,27 +518,36 @@ async function requireCloudSession() {
     if (!(await cloud.canEdit())) throw new Error('Tu cuenta todavía no tiene acceso al editor en línea.');
     return session;
   }
-  const email = prompt('Ingresá tu correo para recibir un enlace de acceso');
-  if (!email) return null;
-  await cloud.requestSignIn(email, location.origin + location.pathname);
-  message('Revisá el correo y abrí el enlace de acceso.');
+  await cloud.signInWithGoogle(new URL('./', location.href).href);
   return null;
 }
 
-async function saveRemote(project = current()) {
-  const saved = await cloud.saveProject({
-    id: project.cloudId, revision: project.cloudRevision, name: project.working.name, data: project,
+function saveRemote(project = current()) {
+  const operation = saveQueue.catch(() => {}).then(async () => {
+    if (!(await requireCloudSession())) throw new Error('Ingresá con Google para guardar.');
+    if (project.cloudArchived) throw new Error('Reactivá el proyecto antes de guardar cambios.');
+    const editRevision = project.editRevision;
+    const saved = await cloud.saveProject({
+      id: project.cloudId, revision: project.cloudRevision,
+      name: project.working.name, data: clone(project),
+    });
+    project.cloudId = saved.id;
+    project.cloudRevision = saved.revision;
+    project.cloudArchived = saved.archived;
+    project.pendingSave = project.editRevision !== editRevision;
+    history = [];
+    save();
+    render();
+    return saved;
   });
-  project.cloudId = saved.id;
-  project.cloudRevision = saved.revision;
-  save();
-  return saved;
+  saveQueue = operation;
+  return operation;
 }
 
 $('cloud-save').onclick = () => run(async () => {
   if (!(await requireCloudSession())) return;
   await saveRemote();
-  message('Proyecto guardado en línea.');
+  message(current().pendingSave ? 'Hay cambios nuevos pendientes de guardar en línea.' : 'Proyecto guardado en línea.');
 });
 $('cloud-open').onclick = () => run(async () => {
   if (!(await requireCloudSession())) return;
@@ -542,19 +556,22 @@ $('cloud-open').onclick = () => run(async () => {
   const choice = Number(prompt(saved.map((item, index) => `${index + 1}. ${item.name}`).join('\n')));
   const row = saved[choice - 1];
   if (!row) return;
-  change(() => {
-    const existing = projects.find(item => item.cloudId === row.id);
-    const project = { ...row.data, id: existing?.id || id(), cloudId: row.id, cloudRevision: row.revision };
-    projects = projects.filter(item => item.id !== project.id).concat(project);
-    selected = project.id;
-    view = 'working';
-  });
+  const existing = projects.find(item => item.cloudId === row.id);
+  if (existing?.pendingSave && !confirm('¿Reemplazar los cambios locales de este proyecto por la versión guardada en línea?')) return;
+  const project = fromCloud(row, existing?.id);
+  projects = projects.filter(item => item.id !== project.id).concat(project);
+  selected = project.id;
+  view = 'working';
+  history = [];
+  save();
+  render();
+  message('Se abrió la versión guardada en línea.');
 });
 
 async function sharePlan(snapshot, options) {
   const project = current();
   if (!(await requireCloudSession())) return;
-  const saved = await saveRemote(project);
+  const saved = project.cloudArchived ? { id: project.cloudId } : await saveRemote(project);
   const token = await cloud.publishShare({ projectId: saved.id, data: { working: snapshot, financeVisible: options.finance } });
   const url = new URL(location.href);
   url.search = '';
@@ -642,7 +659,134 @@ $('manage-shares').onclick = () => run(async () => {
   $('share-dialog').showModal();
 });
 
+let legacyProjects = [];
+
+function fromCloud(row, localId = id()) {
+  return {
+    ...row.data, id: localId, cloudId: row.id, cloudRevision: row.revision,
+    cloudArchived: row.archived, pendingSave: false,
+  };
+}
+
+function updateAccountControls() {
+  if (readonly) return;
+  const active = projects.some(project => !project.cloudArchived);
+  const limited = !isAdmin && active;
+  $('login').hidden = Boolean(session);
+  $('logout').hidden = !session;
+  $('new').disabled = busy || !session || limited;
+  $('example').disabled = busy || !session || limited;
+  $('import-local').hidden = legacyProjects.length === 0;
+  $('import-local').disabled = busy || !session || limited;
+  $('archive').disabled = busy || !current() || !session;
+  $('archive').textContent = current()?.cloudArchived ? 'Reactivar proyecto' : 'Archivar proyecto';
+  $('cloud-save').disabled = busy || !current() || Boolean(current()?.cloudArchived);
+  $('cloud-open').disabled = busy || !session;
+}
+
+async function initializeAccount() {
+  if (!cloud) throw new Error('El servicio de acceso todavía requiere configuración.');
+  session = await cloud.session();
+  if (!session || !(await cloud.canEdit())) {
+    session = null;
+    $('account-status').textContent = 'Ingresá con Google para crear y editar tus proyectos.';
+    updateAccountControls();
+    return;
+  }
+  isAdmin = await cloud.isAdmin();
+  storeKey = 'dm-planner-v1:' + session.user.id;
+  selectionKey = storeKey + ':selected';
+  let cached = [];
+  try {
+    cached = JSON.parse(localStorage.getItem(storeKey)) || [];
+    legacyProjects = JSON.parse(localStorage.getItem('dm-planner-v1')) || [];
+  } catch {
+    message('No se pudo leer el guardado de este navegador.');
+  }
+  if (!Array.isArray(cached)) cached = [];
+  if (!Array.isArray(legacyProjects)) legacyProjects = [];
+  const saved = await cloud.listProjects();
+  projects = saved.map(row => {
+    const local = cached.find(item => item.cloudId === row.id);
+    if (local?.pendingSave) return { ...local, cloudArchived: row.archived };
+    return fromCloud(row, local?.id);
+  });
+  const previous = localStorage.getItem(selectionKey);
+  selected = (projects.find(item => item.id === previous) ??
+    projects.find(item => !item.cloudArchived) ?? projects[0])?.id;
+  $('account-status').textContent = session.user.email + (isAdmin
+    ? ' · Administrador · varios proyectos activos'
+    : ' · Un proyecto activo a la vez. Podés archivar para empezar otro.');
+  document.body.classList.remove('locked');
+  $('empty-projects').hidden = projects.length > 0;
+  save();
+  render();
+  if (current()?.pendingSave) message('Recuperamos cambios de este navegador que todavía no guardaste en línea.');
+}
+
+async function createProject(project) {
+  if (busy) return;
+  busy = true;
+  updateAccountControls();
+  try {
+    await saveRemote(project);
+    projects.push(project);
+    selected = project.id;
+    view = 'working';
+    history = [];
+    $('empty-projects').hidden = true;
+    save();
+    message('Proyecto creado y guardado en línea.');
+  } finally {
+    busy = false;
+    render();
+  }
+}
+
+$('login').onclick = () => run(() => cloud.signInWithGoogle(new URL('./', location.href).href));
+$('logout').onclick = () => run(async () => {
+  save();
+  await cloud.signOut();
+  location.replace(new URL('./', location.href).href);
+});
+$('import-local').onclick = () => run(async () => {
+  const choice = Number(prompt(legacyProjects.map((project, index) =>
+    (index + 1) + '. ' + project.working.name).join('\n') + '\n\nElegí el proyecto que querés guardar en tu cuenta.'));
+  const original = legacyProjects[choice - 1];
+  if (!original) return;
+  const project = clone(original);
+  project.id = id();
+  delete project.cloudId;
+  delete project.cloudRevision;
+  delete project.cloudArchived;
+  await createProject(project);
+});
+$('archive').onclick = () => run(async () => {
+  if (busy || !current()) return;
+  const project = current();
+  const archived = !project.cloudArchived;
+  if (!confirm(archived
+    ? '¿Archivar este proyecto? Podrás consultarlo y reactivarlo después.'
+    : '¿Reactivar este proyecto para editarlo?')) return;
+  busy = true;
+  render();
+  try {
+    if (project.pendingSave && !project.cloudArchived) await saveRemote(project);
+    const saved = await cloud.archiveProject(project.cloudId, project.cloudRevision, archived);
+    project.cloudRevision = saved.revision;
+    project.cloudArchived = saved.archived;
+    history = [];
+    save();
+    message(archived ? 'Proyecto archivado. Ya podés crear otro.' : 'Proyecto reactivado.');
+  } finally {
+    busy = false;
+    render();
+  }
+});
+
+
 if (readonly) {
+  document.body.classList.remove('locked');
   document.body.classList.add('readonly');
   run(async () => {
     if (!cloud) throw new Error('El servicio de enlaces compartidos todavía requiere configuración.');
@@ -654,5 +798,5 @@ if (readonly) {
     render();
   });
 } else {
-  render();
+  run(initializeAccount);
 }

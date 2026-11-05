@@ -18,17 +18,19 @@ export function createCloud({ url, key, client } = {}) {
   }
 
   function result({ data, error }) {
-    if (error) throw new Error(error.message, { cause: error });
+    if (error) throw new Error(error.code === '23505'
+      ? "Ya tenés un proyecto activo. Archivá el actual para crear o reactivar otro."
+      : error.message, { cause: error });
     return data;
   }
 
   return {
     configured,
-    async requestSignIn(email, redirectTo) {
+    async signInWithGoogle(redirectTo) {
       const supabase = await connect();
-      result(await supabase.auth.signInWithOtp({
-        email: email.trim(),
-        options: { emailRedirectTo: redirectTo, shouldCreateUser: false },
+      result(await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo },
       }));
     },
     async session() {
@@ -39,6 +41,17 @@ export function createCloud({ url, key, client } = {}) {
     async canEdit() {
       const supabase = await connect();
       return result(await supabase.rpc("dm_pilot_is_editor")) === true;
+    },
+    async isAdmin() {
+      const supabase = await connect();
+      return result(await supabase.rpc("dm_pilot_is_admin")) === true;
+    },
+    async archiveProject(id, revision, archived) {
+      const supabase = await connect();
+      const saved = result(await supabase.from("dm_pilot_projects").update({ archived })
+        .eq("id", id).eq("revision", revision).select().maybeSingle());
+      if (!saved) throw new Error("El proyecto cambió en otra sesión. Volvé a abrirlo antes de continuar.");
+      return saved;
     },
     async signOut() {
       const supabase = await connect();

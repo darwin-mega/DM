@@ -6,9 +6,9 @@
   <title>Proyectos · dmarketing</title>
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#061522">
-  <link rel="stylesheet" href="./style.css?v=costos">
+  <link rel="stylesheet" href="./style.css?v=google">
 </head>
-<body>
+<body class="locked">
   <header class="masthead">
     <div class="masthead-inner">
       <a href="../index.html" class="brand"><img src="./dm-marketing.webp" alt="DM Marketing"></a>
@@ -24,9 +24,17 @@
     <p id="status" role="status"></p>
     <p id="file-preview" hidden>Para cargar el calendario y el editor, <a href="https://dmarketing.uy/proyectos/index.html">abrí el planificador en dmarketing.uy</a>.</p>
     <noscript><p>Activá JavaScript para usar el planificador.</p></noscript>
+    <section id="account" aria-label="Tu cuenta">
+      <p id="account-status" role="status">Comprobando sesión…</p>
+      <button id="login">Continuar con Google</button>
+      <button id="logout" hidden>Cerrar sesión</button>
+      <p>Guardá tu proyecto en línea para retomarlo desde otro equipo.</p>
+    </section>
+    <section id="empty-projects" hidden><p>Todavía no tenés proyectos. Creá uno o recuperá un proyecto de este navegador.</p></section>
     <section class="toolbar editor" id="project-tools" aria-label="Proyectos guardados">
       <select id="projects" aria-label="Proyecto actual"></select>
       <button id="new">Nuevo proyecto</button><button id="example">Abrir ejemplo Blink</button>
+      <button id="import-local" hidden>Recuperar proyecto anterior</button><button id="archive">Archivar proyecto</button>
       <button id="undo">Deshacer</button><button id="cloud-save">Guardar en línea</button><button id="cloud-open">Abrir guardado en línea</button>
     </section>
     <section>
