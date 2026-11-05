@@ -16,17 +16,22 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({
 })[character]);
 const message = value => { $('status').textContent = value; };
 const storeKey = 'dm-planner-v1';
+const selectionKey = 'dm-planner-selected';
 const shareToken = new URLSearchParams(location.hash.slice(1)).get('share');
 const readonly = shareToken !== null;
 const cloud = cloudConfig.url && cloudConfig.key ? createCloud(cloudConfig) : null;
 const empty = () => ({ name: 'Proyecto nuevo', start: iso(Date.now()), budget: 0, reserve: 0, tasks: [] });
 const record = (working = empty()) => ({ id: id(), working, baseline: null, variant: null, report: {} });
 let projects = [];
+let savedSelection;
 if (!readonly) {
-  try { projects = JSON.parse(localStorage.getItem(storeKey)) || []; } catch { projects = []; }
+  try {
+    projects = JSON.parse(localStorage.getItem(storeKey)) || [];
+    savedSelection = localStorage.getItem(selectionKey);
+  } catch { projects = []; }
   if (!projects.length) projects.push(record());
 }
-let selected = projects[0]?.id;
+let selected = (projects.find(project => project.id === savedSelection) ?? projects[0])?.id;
 let view = 'working';
 let editingId;
 let pendingMove;
@@ -37,7 +42,10 @@ const editable = () => !readonly && view !== 'baseline';
 const financeVisible = () => !readonly || current()?.financeVisible !== false;
 
 function save() {
-  try { localStorage.setItem(storeKey, JSON.stringify(projects)); }
+  try {
+    localStorage.setItem(storeKey, JSON.stringify(projects));
+    localStorage.setItem(selectionKey, selected);
+  }
   catch { message('El navegador no pudo guardar los cambios en este equipo.'); }
 }
 
@@ -450,7 +458,7 @@ $('example').onclick = () => change(() => {
   project.variant = makeBlink(true);
   projects.push(project); selected = project.id; view = 'variant';
 });
-$('projects').onchange = event => { selected = event.target.value; view = 'working'; render(); };
+$('projects').onchange = event => { selected = event.target.value; view = 'working'; save(); render(); };
 $('plan').onchange = event => { view = event.target.value; render(); };
 $('add').onclick = () => openTask();
 $('undo').onclick = () => {
