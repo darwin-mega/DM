@@ -103,3 +103,12 @@ dialog::backdrop{background:#06152299}
   input, select, button, textarea { min-height: 40px; }
   .calendar-row button { min-height: 0; }
 }
+
+#costs > summary { font-size: 1.2rem; font-weight: 750; cursor: pointer; }
+#costs[open] > summary { margin-bottom: 8px; }
+#cashflow h3 { margin: 18px 0 5px; font-size: 1rem; }
+#cashflow table { min-width: 470px; font-variant-numeric: tabular-nums; }
+#cashflow table td:not(:first-child), #cashflow tfoot td { white-space: nowrap; }
+#cashflow tfoot { background: #eaf1f7; font-weight: 700; }
+#cashflow details { margin-top: 14px; }
+#cashflow summary { cursor: pointer; }

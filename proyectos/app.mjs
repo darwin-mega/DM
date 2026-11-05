@@ -100,84 +100,149 @@ function render() {
 
 let editingPayment = null;
 const cents = amount => Math.round(amount * 100);
+const amountText = amount => money(amount / 100);
+const taskLabel = task => [task.code, task.name].filter(Boolean).join(' · ');
 
-function paymentsByMonth(data) {
-  const months = new Map();
-  for (const payment of data?.payments ?? []) {
-    const month = payment.date.slice(0, 7);
-    months.set(month, (months.get(month) ?? 0) + cents(payment.amount));
+function taskMap(...plans) {
+  return new Map(plans.flatMap(data => (data?.tasks ?? []).filter(task => task.kind !== 'group')
+    .map(task => [task.id, task])));
+}
+
+function paymentTotals(payments, group) {
+  const totals = new Map();
+  for (const payment of payments) {
+    const key = group(payment);
+    totals.set(key, (totals.get(key) ?? 0) + cents(payment.amount));
   }
-  return months;
+  return totals;
+}
+
+function costTable(label, columns, rows, totals, empty) {
+  const amounts = values => values.map(value => `<td>${amountText(value)}</td>`).join('');
+  return `<h3>${label}</h3>${rows.length ? `<table aria-label="${label}"><thead><tr>
+    ${columns.map(column => `<th scope="col">${column}</th>`).join('')}</tr></thead><tbody>${
+    rows.map(([name, ...values]) => `<tr><th scope="row">${escape(name)}</th>${amounts(values)}</tr>`).join('')
+  }</tbody><tfoot><tr><th scope="row">Total</th>${amounts(totals)}</tr></tfoot></table>` : `<p>${empty}</p>`}`;
+}
+
+function setPaymentTasks() {
+  const form = $('payment-form');
+  const { kind, taskId } = form.elements;
+  const project = current();
+  const tasks = kind.value === 'actual'
+    ? taskMap(project.baseline, project.working, project.variant, plan())
+    : taskMap(plan());
+  const selectedTask = taskId.value;
+  taskId.replaceChildren(new Option('Elegí una tarea', ''), ...Array.from(tasks.values(),
+    task => new Option(taskLabel(task), task.id)));
+  taskId.value = tasks.has(selectedTask) ? selectedTask : '';
+  $('save-payment').disabled = tasks.size === 0;
+  return tasks;
 }
 
 function renderCashflow(project, result) {
   const form = $('payment-form');
+  const showDetails = $('cashflow').querySelector('details')?.open;
   editingPayment = null;
   form.reset();
+  form.elements.kind.disabled = false;
   $('save-payment').textContent = 'Agregar pago';
   $('cancel-payment').hidden = true;
   form.hidden = !editable();
+  setPaymentTasks();
+
   const tasks = new Map(result.tasks.filter(task => task.kind !== 'group').map(task => [task.id, task]));
-  form.elements.taskId.replaceChildren(new Option('Elegí una tarea', ''), ...Array.from(tasks.values(),
-    task => new Option([task.code, task.name].filter(Boolean).join(' · '), task.id)));
-  $('save-payment').disabled = tasks.size === 0;
-  const payments = [...(plan().payments ?? [])].sort((a, b) => a.date.localeCompare(b.date));
-  const visible = paymentsByMonth(plan());
-  const baseline = paymentsByMonth(project.baseline);
-  const variant = paymentsByMonth(project.variant);
-  const months = [...new Set([...visible.keys(), ...baseline.keys(), ...variant.keys()])].sort();
-  const compare = Boolean(project.baseline && project.variant);
-  const monthlyTable = months.length ? `<table><thead><tr><th>Mes</th><th>Plan visible</th>${compare ? '<th>Línea base</th><th>Variante</th>' : ''}</tr></thead><tbody>${
-    months.map(month => `<tr><th scope="row">${escape(month)}</th><td>${money((visible.get(month) ?? 0) / 100)}</td>${
-      compare ? `<td>${money((baseline.get(month) ?? 0) / 100)}</td><td>${money((variant.get(month) ?? 0) / 100)}</td>` : ''}</tr>`).join('')
-  }</tbody></table>` : '<p>Agregá un pago para ver cuánto dinero se necesita cada mes.</p>';
-  const allocated = new Map();
-  for (const payment of payments) allocated.set(payment.taskId, (allocated.get(payment.taskId) ?? 0) + cents(payment.amount));
+  const allTasks = taskMap(project.baseline, project.working, project.variant, plan());
+  const nameFor = key => allTasks.has(key) ? taskLabel(allTasks.get(key)) : 'Tarea no disponible';
+  const planned = plan().payments ?? [];
+  const actual = readonly ? [] : (project.actualPayments ?? []);
+  const monthOf = payment => payment.date.slice(0, 7);
+  const plannedMonths = paymentTotals(planned, monthOf);
+  const actualMonths = paymentTotals(actual, monthOf);
+  const plannedTasks = paymentTotals(planned, payment => payment.taskId);
+  const actualTasks = paymentTotals(actual, payment => payment.taskId);
+  const sum = totals => [...totals.values()].reduce((total, amount) => total + amount, 0);
+  const plannedTotal = sum(plannedMonths);
+  const actualTotal = sum(actualMonths);
+  const months = [...new Set([...plannedMonths.keys(), ...actualMonths.keys()])].sort();
+
+  const monthly = costTable('Pagos por mes', readonly ? ['Mes', 'Planificado'] : ['Mes', 'Planificado', 'Real', 'Real − plan'],
+    months.map(month => {
+      const expected = plannedMonths.get(month) ?? 0;
+      const paid = actualMonths.get(month) ?? 0;
+      return readonly ? [month, expected] : [month, expected, paid, paid - expected];
+    }), readonly ? [plannedTotal] : [plannedTotal, actualTotal, actualTotal - plannedTotal],
+    'Todavía no hay pagos registrados.');
+
   let pending = 0;
   let excess = 0;
-  for (const task of tasks.values()) {
-    const balance = cents(task.totalCost) - (allocated.get(task.id) ?? 0);
-    pending += Math.max(0, balance);
-    excess += Math.max(0, -balance);
-  }
-  const total = payments.reduce((sum, payment) => sum + cents(payment.amount), 0);
-  const detail = payments.length ? `<details><summary>Ver pagos programados</summary><table><thead><tr><th>Fecha</th><th>Tarea</th><th>Importe</th>${editable() ? '<th>Acciones</th>' : ''}</tr></thead><tbody>${
-    payments.map(payment => `<tr><td>${escape(payment.date)}</td><td>${escape(tasks.get(payment.taskId)?.name || 'Tarea no disponible')}</td>
-      <td>${money(payment.amount)}</td>${editable() ? `<td><button data-edit-payment="${escape(payment.id)}">Editar</button>
-      <button data-delete-payment="${escape(payment.id)}">Eliminar</button></td>` : ''}</tr>`).join('')
+  let estimatedTotal = 0;
+  const taskRows = [...new Set([...tasks.keys(), ...plannedTasks.keys(), ...actualTasks.keys()])].map(key => {
+    const estimated = cents(tasks.get(key)?.totalCost ?? 0);
+    const scheduled = plannedTasks.get(key) ?? 0;
+    const paid = actualTasks.get(key) ?? 0;
+    estimatedTotal += estimated;
+    pending += Math.max(0, estimated - scheduled);
+    excess += Math.max(0, scheduled - estimated);
+    return readonly ? [nameFor(key), estimated, scheduled] : [nameFor(key), estimated, scheduled, paid, paid - estimated];
+  });
+  const byTask = costTable('Costos por tarea', readonly ? ['Tarea', 'Costo previsto', 'Pago planificado'] :
+    ['Tarea', 'Costo previsto', 'Pago planificado', 'Pago real', 'Real − costo previsto'],
+    taskRows, readonly ? [estimatedTotal, plannedTotal] : [estimatedTotal, plannedTotal, actualTotal, actualTotal - estimatedTotal],
+    'Agregá tareas para ver su costo previsto.');
+
+  const entries = [...planned.map(payment => ({ payment, kind: 'planned' })),
+    ...actual.map(payment => ({ payment, kind: 'actual' }))].sort((a, b) => a.payment.date.localeCompare(b.payment.date));
+  const detail = entries.length ? `<details ${showDetails ? 'open' : ''}><summary>Ver pagos registrados</summary>
+    <table><thead><tr><th>Fecha</th><th>Tarea</th><th>Tipo</th><th>Importe</th>${editable() ? '<th>Acciones</th>' : ''}</tr></thead><tbody>${
+    entries.map(({ payment, kind }) => `<tr><td>${escape(payment.date)}</td><td>${escape(nameFor(payment.taskId))}</td>
+      <td>${kind === 'actual' ? 'Real' : 'Planificado'}</td><td>${money(payment.amount)}</td>${editable() ? `<td>
+      <button data-kind="${kind}" data-edit-payment="${escape(payment.id)}">Editar</button>
+      <button data-kind="${kind}" data-delete-payment="${escape(payment.id)}">Eliminar</button></td>` : ''}</tr>`).join('')
   }</tbody></table></details>` : '';
-  $('cashflow').innerHTML = `<p>Pagos programados <b>${money(total / 100)}</b> · Costo por programar <b>${money(pending / 100)}</b> · Reserva <b>${money(plan().reserve ?? 0)}</b></p>
-    ${excess ? `<p>Los pagos superan el costo previsto de una o más tareas en ${money(excess / 100)}.</p>` : ''}${monthlyTable}${detail}`;
+  $('cashflow').innerHTML = `<p>Pagos programados <b>${amountText(plannedTotal)}</b> · Costo por programar <b>${amountText(pending)}</b> · Reserva <b>${money(plan().reserve ?? 0)}</b></p>
+    ${excess ? `<p>Los pagos planificados superan el costo previsto de una o más tareas en ${amountText(excess)}.</p>` : ''}
+    ${monthly}${byTask}${detail}`;
 }
 
+$('payment-form').elements.kind.onchange = setPaymentTasks;
 $('payment-form').onsubmit = event => {
   event.preventDefault();
   if (!editable()) return;
   const fields = Object.fromEntries(new FormData(event.currentTarget));
+  const kind = editingPayment?.kind ?? fields.kind;
   const amount = Number(fields.amount);
   if (!Number.isFinite(dayNumber(fields.date)) || !Number.isSafeInteger(cents(amount)) || amount < 0.01 ||
-      !plan().tasks.some(task => task.id === fields.taskId && task.kind !== 'group')) return;
-  const payment = { taskId: fields.taskId, date: fields.date, amount: cents(amount) / 100, id: editingPayment ?? id() };
+      !setPaymentTasks().has(fields.taskId)) return;
+  const payment = { taskId: fields.taskId, date: fields.date, amount: cents(amount) / 100, id: editingPayment?.id ?? id() };
+  const owner = kind === 'actual' ? current() : plan();
+  const key = kind === 'actual' ? 'actualPayments' : 'payments';
   change(() => {
-    plan().payments = [...(plan().payments ?? []).filter(item => item.id !== payment.id), payment];
+    owner[key] = [...(owner[key] ?? []).filter(item => item.id !== payment.id), payment];
   });
 };
 
 $('cancel-payment').onclick = () => renderCashflow(current(), schedule(plan()));
 $('cashflow').onclick = event => {
   if (!editable()) return;
-  const { editPayment, deletePayment } = event.target.dataset;
+  const { editPayment, deletePayment, kind } = event.target.dataset;
+  const owner = kind === 'actual' ? current() : plan();
+  const key = kind === 'actual' ? 'actualPayments' : 'payments';
   if (editPayment) {
-    const payment = plan().payments.find(item => item.id === editPayment);
+    const payment = owner[key]?.find(item => item.id === editPayment);
     if (!payment) return;
-    editingPayment = payment.id;
-    setFields($('payment-form'), payment);
+    editingPayment = { id: payment.id, kind };
+    const form = $('payment-form');
+    form.elements.kind.value = kind;
+    form.elements.kind.disabled = true;
+    setPaymentTasks();
+    setFields(form, { ...payment, kind });
     $('save-payment').textContent = 'Guardar pago';
     $('cancel-payment').hidden = false;
-    $('payment-form').elements.date.focus();
+    form.elements.date.focus();
   }
   if (deletePayment) change(() => {
-    plan().payments = plan().payments.filter(item => item.id !== deletePayment);
+    owner[key] = owner[key].filter(item => item.id !== deletePayment);
   });
 };
 
@@ -331,7 +396,7 @@ $('task').onsubmit = event => {
     cost: Number(fields.cost), quantity: Number(fields.quantity), rate: Number(fields.rate),
   };
   if (!task.name) return;
-  if (task.kind === 'group' && next.payments?.some(payment => payment.taskId === task.id)) {
+  if (task.kind === 'group' && [...(next.payments ?? []), ...(current().actualPayments ?? [])].some(payment => payment.taskId === task.id)) {
     $('task-error').textContent = 'Reasigná o eliminá los pagos de esta tarea antes de convertirla en grupo.';
     return;
   }
@@ -344,7 +409,7 @@ $('task').onsubmit = event => {
 };
 
 $('delete').onclick = () => {
-  if (plan().payments?.some(payment => payment.taskId === editingId)) {
+  if ([...(plan().payments ?? []), ...(current().actualPayments ?? [])].some(payment => payment.taskId === editingId)) {
     $('task-error').textContent = 'Reasigná o eliminá los pagos de esta tarea antes de borrarla.';
     return;
   }

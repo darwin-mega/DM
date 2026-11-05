@@ -6,7 +6,7 @@
   <title>Proyectos · dmarketing</title>
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#061522">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css?v=costos">
 </head>
 <body>
   <header class="masthead">
@@ -49,17 +49,20 @@
       <div id="comparison"></div>
       <p id="issues"></p>
     </section>
-    <section id="cashflow-section" aria-labelledby="cashflow-heading">
-      <h2 id="cashflow-heading">Flujo de caja</h2>
-      <p>Programá los pagos por fecha. Podés dividir el costo de una tarea en varias cuotas.</p>
-      <form id="payment-form" class="editor">
-        <label>Tarea o hito<select name="taskId" required></select></label>
-        <label>Fecha de pago<input name="date" type="date" required></label>
-        <label>Importe USD<input name="amount" type="number" min="0.01" step="0.01" required></label>
-        <button id="save-payment">Agregar pago</button>
-        <button id="cancel-payment" type="button" hidden>Cancelar edición</button>
-      </form>
-      <div id="cashflow" class="comparison-scroll"></div>
+    <section id="cashflow-section" aria-label="Costos">
+      <details id="costs">
+        <summary>Costos</summary>
+        <p>Compará el plan seleccionado con lo que ya pagaste. Los pagos reales son del proyecto y se ven en todos sus escenarios.</p>
+        <form id="payment-form" class="editor">
+          <label>Tipo de pago<select name="kind"><option value="planned">Planificado</option><option value="actual">Real</option></select></label>
+          <label>Tarea o hito<select name="taskId" required></select></label>
+          <label>Fecha de pago<input name="date" type="date" required></label>
+          <label>Importe USD<input name="amount" type="number" min="0.01" step="0.01" required></label>
+          <button id="save-payment">Agregar pago</button>
+          <button id="cancel-payment" type="button" hidden>Cancelar edición</button>
+        </form>
+        <div id="cashflow" class="comparison-scroll"></div>
+      </details>
     </section>
     <section>
       <div class="toolbar"><h2>Calendario del proyecto</h2><button class="editor" id="add">Agregar tarea o hito</button></div>
@@ -131,6 +134,6 @@
       document.getElementById('file-preview').hidden = false;
     }
   </script>
-  <script type="module" src="./app.mjs"></script>
+  <script type="module" src="./app.mjs?v=costos"></script>
 </body>
 </html>
