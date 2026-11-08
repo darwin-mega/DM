@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Nexo · El viñatero que te cuenta su historia</title>
+<meta name="theme-color" content="#3a0d19">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+  "mindar-image-three": "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
+} }
+</script>
+<style>
+  :root{--bordo:#5B1A2A;--bordo-d:#2a0912;--oro:#E8CF8A;--crema:#f6efe2}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bordo-d);color:var(--crema);font-family:Inter,system-ui,sans-serif;overflow:hidden}
+  #ar{position:fixed;inset:0}
+  .screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:28px 24px calc(28px + env(safe-area-inset-bottom));text-align:center;
+    background:radial-gradient(120% 90% at 50% 40%,#7a2236 0%,#4f1424 55%,#2a0912 100%);z-index:10}
+  .hidden{display:none!important}
+  .logo{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .logo svg{width:58px;height:40px}
+  .logo span{font-family:'Playfair Display',serif;font-size:42px;letter-spacing:.18em;color:var(--oro)}
+  h1{font-family:'Playfair Display',serif;font-weight:500;font-style:italic;font-size:26px;line-height:1.25;margin-bottom:14px;max-width:340px}
+  p.lead{font-size:15px;line-height:1.5;opacity:.9;max-width:330px;margin-bottom:26px}
+  .btn{display:block;width:100%;max-width:320px;border:0;border-radius:999px;padding:16px 22px;font:600 16px Inter,sans-serif;
+    cursor:pointer;margin:6px auto;text-decoration:none}
+  .btn.main{background:linear-gradient(90deg,#b08a3a,#F1DC9E,#b08a3a);color:#3a0d19;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+  .btn.ghost{background:transparent;color:var(--oro);border:1.5px solid rgba(232,207,138,.6)}
+  .small{font-size:12px;opacity:.7;margin-top:16px;max-width:320px;line-height:1.45}
+  /* barra superior durante la experiencia */
+  #hud{position:fixed;left:0;right:0;top:0;z-index:5;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;
+    display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+  #hud .pill{pointer-events:auto;background:rgba(42,9,18,.78);backdrop-filter:blur(6px);border:1px solid rgba(232,207,138,.35);
+    color:var(--crema);border-radius:999px;padding:9px 14px;font-size:13px}
+  #hint{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:5;
+    background:rgba(42,9,18,.85);border:1px solid rgba(232,207,138,.4);border-radius:16px;padding:14px 18px;
+    font-size:14px;width:min(88vw,360px);text-align:center;line-height:1.45}
+  #hint b{color:var(--oro)}
+  .frame{width:150px;height:190px;border:2px dashed rgba(232,207,138,.75);border-radius:14px;margin:0 auto 10px;
+    animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.06);opacity:.6}}
+  /* panel final */
+  #final .card{background:rgba(42,9,18,.55);border:1px solid rgba(232,207,138,.3);border-radius:22px;padding:24px 20px;max-width:360px;width:100%}
+  #final h2{font-family:'Playfair Display',serif;color:var(--oro);font-size:26px;margin-bottom:8px}
+  .sheet{position:fixed;inset:0;z-index:20;background:rgba(20,4,9,.72);display:flex;align-items:flex-end;justify-content:center}
+  .sheet .in{background:var(--crema);color:#2a0912;width:100%;max-width:520px;border-radius:24px 24px 0 0;
+    padding:24px 22px calc(24px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto;text-align:left}
+  .sheet h3{font-family:'Playfair Display',serif;font-size:24px;color:var(--bordo);margin-bottom:10px}
+  .sheet p{font-size:15px;line-height:1.55;margin-bottom:12px}
+  .sheet .btn.main{color:#3a0d19}
+  .sheet .btn.ghost{color:var(--bordo);border-color:rgba(91,26,42,.4)}
+  .sheet label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+  .sheet input[type=text],.sheet textarea{width:100%;border:1px solid #cdbfa8;border-radius:12px;padding:12px;font:15px Inter,sans-serif;background:#fff}
+  .sheet textarea{min-height:110px;resize:vertical}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin-top:12px;line-height:1.4}
+  .tag{display:inline-block;background:var(--bordo);color:var(--oro);font-size:11px;letter-spacing:.08em;border-radius:999px;padding:4px 10px;margin-bottom:10px}
+  /* modo sin cámara */
+  #flat{position:fixed;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;background:#1a050b}
+  #flatWrap{position:relative;height:min(100vh,calc(100vw*1.25));aspect-ratio:1080/1350}
+  #flatWrap img{width:100%;height:100%;display:block}
+  #flatCanvas{position:absolute;left:17.59%;top:7.85%;width:64.81%;height:92.15%}
+  .legal{position:fixed;bottom:4px;left:0;right:0;text-align:center;font-size:10px;opacity:.55;z-index:4;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="ar"></div>
+
+<!-- Pantalla de inicio -->
+<section id="intro" class="screen">
+  <div class="logo">
+    <svg viewBox="0 0 58 40"><circle cx="21" cy="20" r="15" fill="none" stroke="#E8CF8A" stroke-width="3"/><circle cx="37" cy="20" r="15" fill="none" stroke="#E8CF8A" stroke-width="3"/></svg>
+    <span>NEXO</span>
+  </div>
+  <h1>El viñatero del cartel tiene una historia para contarte</h1>
+  <p class="lead">Tocá <b>Empezar</b>, permití el uso de la cámara y apuntá al cartel. Subí el volumen.</p>
+  <button class="btn main" id="startBtn">Empezar</button>
+  <button class="btn ghost" id="flatBtn">Ver sin cámara</button>
+  <p class="small">Experiencia para mayores de 18 años. Disfrutá con moderación.</p>
+</section>
+
+<!-- Durante la experiencia -->
+<div id="hud" class="hidden">
+  <button class="pill" id="soundBtn">🔊 Sonido</button>
+  <button class="pill" id="skipBtn">Saltar ›</button>
+</div>
+<div id="hint" class="hidden"><div class="frame"></div>Apuntá la cámara al <b>cartel completo del viñatero</b>.<br>Mantené el celular firme.</div>
+
+<!-- Pantalla final -->
+<section id="final" class="screen hidden">
+  <div class="card">
+    <div class="logo" style="justify-content:center">
+      <svg viewBox="0 0 58 40"><circle cx="21" cy="20" r="15" fill="none" stroke="#E8CF8A" stroke-width="3"/><circle cx="37" cy="20" r="15" fill="none" stroke="#E8CF8A" stroke-width="3"/></svg>
+      <span style="font-size:34px">NEXO</span>
+    </div>
+    <h2>¿Lo probás?</h2>
+    <p class="lead" style="margin:0 auto 18px">Lo que une la tierra, la uva y tu mesa.</p>
+    <button class="btn main" data-open="probar">Probalo acá</button>
+    <button class="btn ghost" data-open="historia">Contá tu historia</button>
+    <button class="btn ghost" data-open="conoce">Conocé Nexo</button>
+    <button class="btn ghost" id="againBtn" style="border:0;opacity:.8">↺ Ver de nuevo</button>
+  </div>
+</section>
+
+<!-- Hojas de contenido -->
+<div class="sheet hidden" id="sheet-probar"><div class="in">
+  <span class="tag">DEGUSTACIÓN</span>
+  <h3>Te esperamos para probarlo</h3>
+  <p>En este punto de venta hay una degustación de <b>Nexo Tannat</b>. Acercate al stand de Viñas del Sur y pedí tu copa.</p>
+  <p>Al abrir tu botella, escaneá el <b>QR interior</b> (debajo de la cápsula): te registrás y recibís un <b>10 % de descuento</b> en tu próxima botella, en la web o en cualquier comercio adherido.</p>
+  <button class="btn main" data-close>Listo</button>
+</div></div>
+
+<div class="sheet hidden" id="sheet-historia"><div class="in">
+  <span class="tag">HISTORIAS CON NEXO</span>
+  <h3>¿Cuál es tu historia?</h3>
+  <p>Una mesa compartida, un asado, un reencuentro. Contanos una anécdota que haya pasado alrededor de un buen vino. Las mejores las cuenta nuestro viñatero, y la ganadora se lleva una visita a la bodega para compartir con amigos.</p>
+  <form id="storyForm">
+    <label for="nombre">Tu nombre</label><input type="text" id="nombre" required>
+    <label for="relato">Tu historia</label><textarea id="relato" required placeholder="Era una noche de invierno…"></textarea>
+    <div class="check"><input type="checkbox" id="mayor" required><label for="mayor" style="margin:0;font-weight:400">Soy mayor de 18 años y acepto que Nexo publique mi historia con mi nombre de pila.</label></div>
+    <button class="btn main" type="submit" style="margin-top:16px">Enviar historia</button>
+  </form>
+  <p id="storyOk" class="hidden" style="margin-top:12px"><b>¡Gracias!</b> (Demo académica: la historia no se envía a ningún servidor.)</p>
+  <button class="btn ghost" data-close>Cerrar</button>
+</div></div>
+
+<div class="sheet hidden" id="sheet-conoce"><div class="in">
+  <span class="tag">NEXO TANNAT · VIÑAS DEL SUR</span>
+  <h3>Lo que une la tierra, la uva y tu mesa</h3>
+  <p>El Tannat llegó a Uruguay en el siglo XIX con inmigrantes vascos y acá encontró su casa: entre los paralelos 30 y 35, con brisa del Atlántico y noches frescas.</p>
+  <p>Nexo se elabora con procesos sustentables y viene en una <b>botella ultraliviana</b>, con menos vidrio por botella.</p>
+  <p><b>Cada botella tiene dos QR:</b> el de la etiqueta, para conocer maridajes, el origen y dónde comprar; y el interior, que al abrirla te da un beneficio para tu próxima compra.</p>
+  <p class="small" style="color:#5B1A2A;opacity:.8">Proyecto académico · UDE · Omnicanalidad y Retailing. Viñas del Sur y Nexo son marcas ficticias del caso.</p>
+  <button class="btn main" data-close>Volver</button>
+</div></div>
+
+<!-- Modo sin cámara -->
+<div id="flat" class="hidden">
+  <div id="flatWrap"><img src="cartel.jpg" alt="Cartel de Nexo"><canvas id="flatCanvas"></canvas></div>
+</div>
+
+<div class="legal hidden" id="legal">Beber con moderación. Prohibida su venta a menores de 18 años.</div>
+
+<video id="vid" src="nexo.mp4" playsinline webkit-playsinline preload="auto" crossorigin="anonymous" style="display:none"></video>
+
+<script type="module">
+import * as THREE from 'three';
+import { MindARThree } from 'mindar-image-three';
+
+const $ = (id) => document.getElementById(id);
+const video = $('vid');
+let mode = null, found = false, ended = false, mindar = null, flatRAF = null;
+
+// Geometría del cartel (zona reconocida: 1080 x 1350 px). El personaje ocupa x=190, y=106, 700 x 1244.
+const PLANE_W = 700/1080, PLANE_H = 1244/1080, PLANE_Y = -((106 + 622) - 675)/1080;
+
+// ---------- Utilidades de interfaz ----------
+const show = (el) => el.classList.remove('hidden');
+const hide = (el) => el.classList.add('hidden');
+document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => show($('sheet-' + b.dataset.open)));
+document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => hide(b.closest('.sheet')));
+$('storyForm').onsubmit = (e) => { e.preventDefault(); hide($('storyForm')); show($('storyOk')); };
+
+function unlockAudio() {
+  // Desbloquea el audio dentro del gesto del usuario (requisito de iOS).
+  video.muted = false;
+  return video.play().then(() => { video.pause(); video.currentTime = 0; }).catch(() => { video.muted = true; });
+}
+$('soundBtn').onclick = () => { video.muted = !video.muted; $('soundBtn').textContent = video.muted ? '🔇 Sin sonido' : '🔊 Sonido'; };
+$('skipBtn').onclick = () => finish();
+$('againBtn').onclick = () => {
+  hide($('final')); ended = false; video.currentTime = 0; show($('hud'));
+  if (mode === 'ar') { if (found) video.play(); else show($('hint')); } else { video.play(); }
+};
+video.addEventListener('ended', finish);
+function finish() { if (ended) return; ended = true; video.pause(); hide($('hint')); hide($('hud')); show($('final')); }
+
+// ---------- Material con fondo verde quitado ----------
+function chromaMaterial(videoTex, plateTex) {
+  return new THREE.ShaderMaterial({
+    uniforms: { map: { value: videoTex }, plate: { value: plateTex }, showVideo: { value: 0.0 } },
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+    fragmentShader: `
+      uniform sampler2D map; uniform sampler2D plate; uniform float showVideo; varying vec2 vUv;
+      void main(){
+        vec3 bg = texture2D(plate, vUv).rgb;
+        vec3 c = texture2D(map, vUv).rgb;
+        float d = c.g - max(c.r, c.b);                 // cuánto domina el verde
+        float a = 1.0 - smoothstep(0.12, 0.38, d);     // 1 = personaje, 0 = fondo verde
+        c.g = min(c.g, max(c.r, c.b) + 0.03);          // quita el reflejo verde de los bordes
+        gl_FragColor = vec4(mix(bg, c, a * showVideo), showVideo);
+      }`,
+    transparent: true
+  });
+}
+
+// ---------- Modo realidad aumentada ----------
+async function startAR() {
+  mode = 'ar';
+  hide($('intro')); show($('hint')); show($('hud')); show($('legal'));
+  try {
+    mindar = new MindARThree({
+      container: $('ar'), imageTargetSrc: 'target.mind',
+      uiLoading: 'yes', uiScanning: 'no', uiError: 'yes',
+      filterMinCF: 0.0001, filterBeta: 0.001, warmupTolerance: 3, missTolerance: 8
+    });
+    const { renderer, scene, camera } = mindar;
+    const videoTex = new THREE.VideoTexture(video);
+    const plateTex = await new THREE.TextureLoader().loadAsync('plate.jpg');
+    const mat = chromaMaterial(videoTex, plateTex);
+    const plane = new THREE.Mesh(new THREE.PlaneGeometry(PLANE_W, PLANE_H), mat);
+    plane.position.set(0, PLANE_Y, 0.001);
+    const anchor = mindar.addAnchor(0);
+    anchor.group.add(plane);
+    anchor.onTargetFound = () => {
+      found = true; hide($('hint'));
+      if (!ended) { mat.uniforms.showVideo.value = 1.0; video.play().catch(() => { video.muted = true; video.play(); }); }
+    };
+    anchor.onTargetLost = () => { found = false; if (!ended) { video.pause(); show($('hint')); } };
+    await mindar.start();
+    renderer.setAnimationLoop(() => renderer.render(scene, camera));
+  } catch (err) {
+    console.error(err);
+    hide($('hint'));
+    alertInline('No pudimos acceder a la cámara. Te mostramos la experiencia sin realidad aumentada.');
+    startFlat();
+  }
+}
+function alertInline(msg) {
+  const p = document.createElement('div'); p.textContent = msg;
+  Object.assign(p.style, { position:'fixed', top:'70px', left:'50%', transform:'translateX(-50%)', zIndex:30, background:'#2a0912',
+    border:'1px solid #E8CF8A', borderRadius:'12px', padding:'10px 14px', fontSize:'13px', width:'min(90vw,360px)', textAlign:'center' });
+  document.body.appendChild(p); setTimeout(() => p.remove(), 5000);
+}
+
+// ---------- Modo sin cámara (respaldo) ----------
+function startFlat() {
+  mode = 'flat';
+  if (mindar) { try { mindar.stop(); } catch (e) {} }
+  hide($('intro')); hide($('hint')); show($('flat')); show($('hud')); show($('legal'));
+  const cv = $('flatCanvas'), ctx = cv.getContext('2d', { willReadFrequently: true });
+  const plate = new Image(); plate.src = 'plate.jpg';
+  cv.width = 576; cv.height = 1024;
+  const tmp = document.createElement('canvas'); tmp.width = 576; tmp.height = 1024;
+  const tctx = tmp.getContext('2d', { willReadFrequently: true });
+  const draw = () => {
+    if (video.readyState >= 2) {
+      tctx.drawImage(video, 0, 0, 576, 1024);
+      const fr = tctx.getImageData(0, 0, 576, 1024), px = fr.data;
+      for (let i = 0; i < px.length; i += 4) {
+        const r = px[i], g = px[i+1], b = px[i+2], m = Math.max(r, b), d = g - m;
+        const a = d <= 31 ? 1 : d >= 97 ? 0 : 1 - (d - 31) / 66;
+        if (a < 1) px[i+1] = Math.min(g, m + 8);
+        px[i+3] = 255 * a;
+      }
+      ctx.clearRect(0, 0, 576, 1024);
+      if (plate.complete) ctx.drawImage(plate, 0, 0, 576, 1024);
+      tctx.putImageData(fr, 0, 0); ctx.drawImage(tmp, 0, 0);
+    }
+    flatRAF = requestAnimationFrame(draw);
+  };
+  draw();
+  video.play().catch(() => { video.muted = true; video.play(); $('soundBtn').textContent = '🔇 Sin sonido'; });
+}
+
+$('startBtn').onclick = async () => { await unlockAudio(); startAR(); };
+$('flatBtn').onclick = async () => { await unlockAudio(); startFlat(); };
+</script>
+</body>
+</html>
